@@ -1,9 +1,9 @@
 // Particle System
 let canvas, ctx, particles, mouse;
-const particleCount = 100; // Reduced for clearer connections
-const connectionDistance = 250; // Increased for more connections
-const particleSpeed = 0.2; // Reduced for smoother movement
-const connectionStrength = 0.9; // Increased connection opacity
+const particleCount = 100; // Increased from 80 to 100 particles
+const connectionDistance = 200; // Adjusted for better connections
+const particleSpeed = 0.08; // Reduced from 0.15 to 0.08 for slower movement
+const connectionStrength = 0.6; // Reduced opacity of connections
 const mouseRadius = 300; // Larger mouse influence
 const mouseConnectionRadius = 350; // Radius for special mouse connections
 const maxConnections = 5; // Maximum connections per particle
@@ -76,7 +76,7 @@ function createParticles() {
         particles.push({
             x: Math.random() * canvas.width,
             y: Math.random() * canvas.height,
-            radius: Math.random() * 1.5 + 1,
+            radius: Math.random() * 1.2 + 0.8,
             vx: (Math.random() - 0.5) * particleSpeed,
             vy: (Math.random() - 0.5) * particleSpeed,
             color: getRandomColor(),
@@ -150,7 +150,7 @@ function drawParticles() {
             
             ctx.beginPath();
             ctx.strokeStyle = gradient;
-            ctx.lineWidth = opacity * 3;
+            ctx.lineWidth = opacity * 1.5;
             ctx.moveTo(particle.x, particle.y);
             ctx.lineTo(otherParticle.x, otherParticle.y);
             ctx.stroke();
@@ -173,7 +173,7 @@ function drawParticles() {
                 
                 ctx.beginPath();
                 ctx.strokeStyle = gradient;
-                ctx.lineWidth = opacity * 4;
+                ctx.lineWidth = opacity * 2;
                 ctx.moveTo(particle.x, particle.y);
                 ctx.lineTo(mouse.x, mouse.y);
                 ctx.stroke();
@@ -198,8 +198,8 @@ function drawParticles() {
             
             if (mouseDistance < mouseRadius) {
                 const force = (mouseRadius - mouseDistance) / mouseRadius;
-                particle.vx += (mdx * force * 0.02);
-                particle.vy += (mdy * force * 0.02);
+                particle.vx += (mdx * force * 0.01);
+                particle.vy += (mdy * force * 0.01);
             }
         }
 
@@ -370,57 +370,59 @@ function smoothScrollWithEffects(target) {
     const targetSection = document.querySelector(target);
     const allSections = document.querySelectorAll('section');
     
-    // Set initial perspective and prepare for transition
-    document.body.style.perspective = '3000px';
-    document.documentElement.style.scrollBehavior = 'auto';
-    
-    // Add transition overlay
-    const overlay = document.createElement('div');
-    overlay.className = 'transition-overlay';
-    document.body.appendChild(overlay);
-
-    // Elegant exit for current sections
+    // Add transition class to all sections
     allSections.forEach(section => {
         if (section !== targetSection) {
-            section.classList.add('section-super-exit');
-            section.style.pointerEvents = 'none';
+            section.style.transition = 'all 0.5s ease';
+            section.style.opacity = '0.3';
+            section.style.transform = 'scale(0.95)';
         }
     });
 
-    // Prepare target section
-    targetSection.classList.add('section-super-entrance');
-    targetSection.style.pointerEvents = 'all';
-    
+    // Create and add transition overlay
+    const overlay = document.createElement('div');
+    overlay.style.position = 'fixed';
+    overlay.style.top = '0';
+    overlay.style.left = '0';
+    overlay.style.width = '100%';
+    overlay.style.height = '100%';
+    overlay.style.background = 'radial-gradient(circle at center, rgba(0,255,136,0.1) 0%, rgba(10,10,15,0) 70%)';
+    overlay.style.pointerEvents = 'none';
+    overlay.style.zIndex = '9999';
+    overlay.style.opacity = '0';
+    overlay.style.transition = 'opacity 0.5s ease';
+    document.body.appendChild(overlay);
+
+    // Animate overlay
+    requestAnimationFrame(() => {
+        overlay.style.opacity = '1';
+    });
+
     // Smooth scroll with enhanced timing
     setTimeout(() => {
+        targetSection.style.transition = 'all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1)';
+        targetSection.style.opacity = '1';
+        targetSection.style.transform = 'scale(1) translateY(0)';
+        
         window.scrollTo({
             top: targetSection.offsetTop - 80,
             behavior: 'smooth'
         });
-        
-        // Add ripple and glow effects
-        const ripple = document.createElement('div');
-        ripple.className = 'section-ripple-enhanced';
-        targetSection.appendChild(ripple);
 
-        const glow = document.createElement('div');
-        glow.className = 'section-glow';
-        targetSection.appendChild(glow);
+        // Add glow effect to target section
+        targetSection.style.boxShadow = '0 0 50px rgba(0,255,136,0.1)';
     }, 300);
 
-    // Clean up animations with perfect timing
+    // Cleanup animations
     setTimeout(() => {
         allSections.forEach(section => {
-            section.classList.remove('section-super-exit');
-            section.style.pointerEvents = 'all';
+            section.style.opacity = '1';
+            section.style.transform = 'scale(1)';
+            section.style.boxShadow = 'none';
         });
-        targetSection.classList.remove('section-super-entrance');
-        document.body.removeChild(overlay);
-        const ripple = targetSection.querySelector('.section-ripple-enhanced');
-        const glow = targetSection.querySelector('.section-glow');
-        if (ripple) ripple.remove();
-        if (glow) glow.remove();
-    }, 1800);
+        overlay.style.opacity = '0';
+        setTimeout(() => overlay.remove(), 500);
+    }, 1000);
 }
 
 // Update click event listeners for navigation links
@@ -429,12 +431,13 @@ document.querySelectorAll('.nav-links a').forEach(link => {
         e.preventDefault();
         const target = this.getAttribute('href');
         
-        // Add active class to clicked link
+        // Update active state
         document.querySelectorAll('.nav-links a').forEach(link => {
             link.classList.remove('active');
         });
         this.classList.add('active');
 
+        // Apply smooth scroll with effects
         smoothScrollWithEffects(target);
     });
 }); 
