@@ -42,6 +42,11 @@
     <div class="cursor"></div>
     <div class="cursor-follower"></div>
 
+    <!-- Scroll Progress -->
+    <div class="scroll-progress">
+        <div class="scroll-progress-bar"></div>
+    </div>
+
     <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
@@ -52,9 +57,11 @@
             <div class="nav-menu">
                 <a href="#home" class="nav-link">Home</a>
                 <a href="#about" class="nav-link">About</a>
+                <a href="#services" class="nav-link">Services</a>
                 <a href="#skills" class="nav-link">Skills</a>
                 <a href="#experience" class="nav-link">Experience</a>
                 <a href="#projects" class="nav-link">Projects</a>
+                <a href="#testimonials" class="nav-link">Testimonials</a>
                 <a href="#contact" class="nav-link">Contact</a>
             </div>
             <div class="nav-toggle">
@@ -208,6 +215,68 @@
                                 <span class="proficiency-text">Advanced</span>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services">
+        <div class="container">
+            <h2 data-aos="fade-up">What I Do</h2>
+            <p class="section-subtitle" data-aos="fade-up" data-aos-delay="200">Transforming ideas into digital reality</p>
+            
+            <div class="services-grid">
+                <div class="service-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="service-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3>Web Development</h3>
+                    <p>Creating responsive, modern websites with cutting-edge technologies and best practices.</p>
+                    <div class="service-features">
+                        <span>React</span>
+                        <span>Node.js</span>
+                        <span>MongoDB</span>
+                    </div>
+                </div>
+
+                <div class="service-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="service-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3>Mobile Apps</h3>
+                    <p>Building cross-platform mobile applications with native performance and smooth UX.</p>
+                    <div class="service-features">
+                        <span>React Native</span>
+                        <span>Flutter</span>
+                        <span>Firebase</span>
+                    </div>
+                </div>
+
+                <div class="service-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="service-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>AI Solutions</h3>
+                    <p>Implementing machine learning and AI-powered features to enhance user experiences.</p>
+                    <div class="service-features">
+                        <span>Python</span>
+                        <span>TensorFlow</span>
+                        <span>OpenAI</span>
+                    </div>
+                </div>
+
+                <div class="service-card" data-aos="fade-up" data-aos-delay="400">
+                    <div class="service-icon">
+                        <i class="fas fa-palette"></i>
+                    </div>
+                    <h3>UI/UX Design</h3>
+                    <p>Designing intuitive interfaces that provide exceptional user experiences and engagement.</p>
+                    <div class="service-features">
+                        <span>Figma</span>
+                        <span>Adobe XD</span>
+                        <span>Prototyping</span>
                     </div>
                 </div>
             </div>
@@ -467,8 +536,8 @@
                     </div>
                 </div>
 
-                <div class="projects-grid">
-                    <div class="project-card" data-aos="fade-up" data-aos-delay="100">
+                <div class="projects-grid" id="projects-grid">
+                    <div class="project-card visible" data-aos="fade-up" data-aos-delay="100">
                         <div class="project-image">
                             <img src="https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=800" alt="AI Voice Assistant">
                             <div class="project-overlay">
@@ -494,7 +563,7 @@
                         </div>
                     </div>
 
-                    <div class="project-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="project-card visible" data-aos="fade-up" data-aos-delay="200">
                         <div class="project-image">
                             <img src="https://images.pexels.com/photos/442576/pexels-photo-442576.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Flappy Bird Clone">
                             <div class="project-overlay">
@@ -520,7 +589,7 @@
                         </div>
                     </div>
 
-                    <div class="project-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="project-card hidden" data-aos="fade-up" data-aos-delay="300">
                         <div class="project-image">
                             <img src="https://images.pexels.com/photos/730547/pexels-photo-730547.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Currency Converter">
                             <div class="project-overlay">
@@ -546,7 +615,7 @@
                         </div>
                     </div>
 
-                    <div class="project-card" data-aos="fade-up" data-aos-delay="400">
+                    <div class="project-card hidden" data-aos="fade-up" data-aos-delay="400">
                         <div class="project-image">
                             <img src="https://images.pexels.com/photos/1181244/pexels-photo-1181244.jpeg?auto=compress&cs=tinysrgb&w=800" alt="E-Commerce Platform">
                             <div class="project-overlay">
@@ -571,6 +640,185 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="project-card hidden" data-aos="fade-up" data-aos-delay="500">
+                        <div class="project-image">
+                            <img src="https://images.pexels.com/photos/3861958/pexels-photo-3861958.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Task Management App">
+                            <div class="project-overlay">
+                                <div class="project-links">
+                                    <a href="https://github.com/Shaik-Nihal/task-manager" class="project-link" target="_blank">
+                                        <i class="fab fa-github"></i>
+                                    </a>
+                                    <a href="#" class="project-link">
+                                        <i class="fas fa-external-link-alt"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-content">
+                            <div class="project-category">Productivity</div>
+                            <h3>Task Management App</h3>
+                            <p>Collaborative task management with real-time updates and team features.</p>
+                            <div class="project-tech">
+                                <span>Vue.js</span>
+                                <span>Firebase</span>
+                                <span>PWA</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card hidden" data-aos="fade-up" data-aos-delay="600">
+                        <div class="project-image">
+                            <img src="https://images.pexels.com/photos/1181467/pexels-photo-1181467.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Weather Dashboard">
+                            <div class="project-overlay">
+                                <div class="project-links">
+                                    <a href="https://github.com/Shaik-Nihal/weather-dashboard" class="project-link" target="_blank">
+                                        <i class="fab fa-github"></i>
+                                    </a>
+                                    <a href="#" class="project-link">
+                                        <i class="fas fa-external-link-alt"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-content">
+                            <div class="project-category">Data Visualization</div>
+                            <h3>Weather Dashboard</h3>
+                            <p>Interactive weather dashboard with forecasts and beautiful visualizations.</p>
+                            <div class="project-tech">
+                                <span>React</span>
+                                <span>D3.js</span>
+                                <span>Weather API</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="load-more-container" data-aos="fade-up" data-aos-delay="700">
+                    <button id="load-more-btn" class="load-more-btn">
+                        <span>Load More Projects</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="testimonials">
+        <div class="container">
+            <h2 data-aos="fade-up">What People Say</h2>
+            <p class="section-subtitle" data-aos="fade-up" data-aos-delay="200">Feedback from clients and colleagues</p>
+            
+            <div class="testimonials-slider" data-aos="fade-up" data-aos-delay="400">
+                <div class="testimonial-track">
+                    <div class="testimonial-card active">
+                        <div class="testimonial-content">
+                            <div class="quote-icon">
+                                <i class="fas fa-quote-left"></i>
+                            </div>
+                            <p>"Shaik delivered exceptional work on our web application. His attention to detail and technical expertise made our project a huge success."</p>
+                            <div class="testimonial-author">
+                                <div class="author-avatar">
+                                    <img src="https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=100" alt="John Smith">
+                                </div>
+                                <div class="author-info">
+                                    <h4>John Smith</h4>
+                                    <span>CEO, TechStart Inc.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="testimonial-card">
+                        <div class="testimonial-content">
+                            <div class="quote-icon">
+                                <i class="fas fa-quote-left"></i>
+                            </div>
+                            <p>"Working with Shaik was a pleasure. He brought creative solutions to complex problems and delivered beyond our expectations."</p>
+                            <div class="testimonial-author">
+                                <div class="author-avatar">
+                                    <img src="https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=100" alt="Sarah Johnson">
+                                </div>
+                                <div class="author-info">
+                                    <h4>Sarah Johnson</h4>
+                                    <span>Product Manager, InnovateLab</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="testimonial-card">
+                        <div class="testimonial-content">
+                            <div class="quote-icon">
+                                <i class="fas fa-quote-left"></i>
+                            </div>
+                            <p>"Shaik's coding skills and problem-solving abilities are outstanding. He's a valuable team member who always delivers quality work."</p>
+                            <div class="testimonial-author">
+                                <div class="author-avatar">
+                                    <img src="https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=100" alt="Mike Chen">
+                                </div>
+                                <div class="author-info">
+                                    <h4>Mike Chen</h4>
+                                    <span>Lead Developer, CodeCraft</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-controls">
+                    <button class="testimonial-btn prev" id="prev-testimonial">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <div class="testimonial-dots">
+                        <span class="dot active" data-slide="0"></span>
+                        <span class="dot" data-slide="1"></span>
+                        <span class="dot" data-slide="2"></span>
+                    </div>
+                    <button class="testimonial-btn next" id="next-testimonial">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Fun Facts Section -->
+    <section id="fun-facts" class="fun-facts">
+        <div class="container">
+            <h2 data-aos="fade-up">Fun Facts</h2>
+            <div class="facts-grid">
+                <div class="fact-item" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="fact-icon">
+                        <i class="fas fa-coffee"></i>
+                    </div>
+                    <div class="fact-number" data-target="1247">0</div>
+                    <div class="fact-label">Cups of Coffee</div>
+                </div>
+
+                <div class="fact-item" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="fact-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <div class="fact-number" data-target="50000">0</div>
+                    <div class="fact-label">Lines of Code</div>
+                </div>
+
+                <div class="fact-item" data-aos="zoom-in" data-aos-delay="300">
+                    <div class="fact-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="fact-number" data-target="2500">0</div>
+                    <div class="fact-label">Hours Coding</div>
+                </div>
+
+                <div class="fact-item" data-aos="zoom-in" data-aos-delay="400">
+                    <div class="fact-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <div class="fact-number" data-target="127">0</div>
+                    <div class="fact-label">Ideas Implemented</div>
                 </div>
             </div>
         </div>

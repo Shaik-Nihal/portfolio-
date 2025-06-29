@@ -28,12 +28,28 @@ function initializePortfolio() {
     initSkillBars();
     initContactForm();
     initScrollEffects();
+    initScrollProgress();
+    initProjectLoadMore();
+    initTestimonialSlider();
     
     // Initialize AOS
     AOS.init({
         duration: 1000,
         once: true,
         offset: 100
+    });
+}
+
+// Scroll Progress Bar
+function initScrollProgress() {
+    const progressBar = document.querySelector('.scroll-progress-bar');
+    
+    window.addEventListener('scroll', () => {
+        const scrollTop = window.pageYOffset;
+        const docHeight = document.body.scrollHeight - window.innerHeight;
+        const scrollPercent = (scrollTop / docHeight) * 100;
+        
+        progressBar.style.width = scrollPercent + '%';
     });
 }
 
@@ -66,7 +82,7 @@ function initCursor() {
     animateFollower();
     
     // Cursor interactions
-    const interactiveElements = document.querySelectorAll('a, button, .project-card, .skill-item, .experience-card');
+    const interactiveElements = document.querySelectorAll('a, button, .project-card, .skill-item, .experience-card, .service-card, .testimonial-card, .fact-item');
     
     interactiveElements.forEach(el => {
         el.addEventListener('mouseenter', () => {
@@ -333,7 +349,7 @@ function initTypewriter() {
 
 // Counter Animation
 function initCounters() {
-    const counters = document.querySelectorAll('.stat-number');
+    const counters = document.querySelectorAll('.stat-number, .fact-number');
     
     const animateCounter = (counter) => {
         const target = parseFloat(counter.getAttribute('data-target'));
@@ -409,6 +425,99 @@ function initSkillBars() {
     });
 }
 
+// Project Load More Functionality
+function initProjectLoadMore() {
+    const loadMoreBtn = document.getElementById('load-more-btn');
+    const hiddenProjects = document.querySelectorAll('.project-card.hidden');
+    
+    if (loadMoreBtn && hiddenProjects.length > 0) {
+        loadMoreBtn.addEventListener('click', () => {
+            // Show hidden projects with animation
+            hiddenProjects.forEach((project, index) => {
+                setTimeout(() => {
+                    project.classList.remove('hidden');
+                    project.classList.add('visible');
+                    project.style.animation = `fadeInUp 0.6s ease forwards`;
+                    project.style.animationDelay = `${index * 0.1}s`;
+                }, index * 100);
+            });
+            
+            // Hide the load more button
+            setTimeout(() => {
+                loadMoreBtn.style.transform = 'scale(0)';
+                loadMoreBtn.style.opacity = '0';
+                setTimeout(() => {
+                    loadMoreBtn.style.display = 'none';
+                }, 300);
+            }, hiddenProjects.length * 100 + 500);
+        });
+    }
+}
+
+// Testimonial Slider
+function initTestimonialSlider() {
+    const testimonialCards = document.querySelectorAll('.testimonial-card');
+    const dots = document.querySelectorAll('.dot');
+    const prevBtn = document.getElementById('prev-testimonial');
+    const nextBtn = document.getElementById('next-testimonial');
+    
+    let currentSlide = 0;
+    
+    function showSlide(index) {
+        //Hide all cards
+        testimonialCards.forEach(card => {
+            card.classList.remove('active');
+        });
+        
+        // Remove active class from all dots
+        dots.forEach(dot => {
+            dot.classList.remove('active');
+        });
+        
+        // Show current slide
+        if (testimonialCards[index]) {
+            testimonialCards[index].classList.add('active');
+        }
+        
+        if (dots[index]) {
+            dots[index].classList.add('active');
+        }
+    }
+    
+    function nextSlide() {
+        currentSlide = (currentSlide + 1) % testimonialCards.length;
+        showSlide(currentSlide);
+    }
+    
+    function prevSlide() {
+        currentSlide = (currentSlide - 1 + testimonialCards.length) % testimonialCards.length;
+        showSlide(currentSlide);
+    }
+    
+    // Event listeners
+    if (nextBtn) {
+        nextBtn.addEventListener('click', nextSlide);
+    }
+    
+    if (prevBtn) {
+        prevBtn.addEventListener('click', prevSlide);
+    }
+    
+    // Dot navigation
+    dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+            currentSlide = index;
+            showSlide(currentSlide);
+        });
+    });
+    
+    // Auto-play testimonials
+    setInterval(nextSlide, 5000);
+    
+    // Initialize first slide
+    showSlide(0);
+}
+
 // Contact Form
 function initContactForm() {
     const form = document.querySelector('.contact-form');
@@ -446,7 +555,7 @@ function initContactForm() {
     }
 }
 
-// Scroll Effects
+// Enhanced Scroll Effects
 function initScrollEffects() {
     // Parallax effect for hero section
     window.addEventListener('scroll', () => {
@@ -457,16 +566,37 @@ function initScrollEffects() {
         if (hero && heroContent) {
             heroContent.style.transform = `translateY(${scrolled * 0.3}px)`;
         }
+        
+        // Parallax for other sections
+        const parallaxElements = document.querySelectorAll('.about-card, .service-card, .experience-card');
+        parallaxElements.forEach(element => {
+            const rect = element.getBoundingClientRect();
+            const speed = 0.1;
+            const yPos = -(rect.top * speed);
+            element.style.transform = `translateY(${yPos}px)`;
+        });
     });
     
-    // Reveal animations on scroll
-    const revealElements = document.querySelectorAll('.about-card, .skill-category, .experience-card, .project-card, .contact-card');
+    // Scroll reveal animations
+    const revealElements = document.querySelectorAll('.about-card, .skill-category, .experience-card, .project-card, .contact-card, .service-card, .testimonial-card, .fact-item');
     
     const revealObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.style.opacity = '1';
                 entry.target.style.transform = 'translateY(0)';
+                
+                // Add stagger effect for grid items
+                const parent = entry.target.parentElement;
+                if (parent.classList.contains('services-grid') || 
+                    parent.classList.contains('skills-grid') || 
+                    parent.classList.contains('projects-grid') ||
+                    parent.classList.contains('facts-grid')) {
+                    const siblings = Array.from(parent.children);
+                    const index = siblings.indexOf(entry.target);
+                    entry.target.style.animationDelay = `${index * 0.1}s`;
+                    entry.target.style.animation = 'fadeInUp 0.6s ease forwards';
+                }
             }
         });
     }, {
@@ -479,6 +609,24 @@ function initScrollEffects() {
         el.style.transform = 'translateY(50px)';
         el.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
         revealObserver.observe(el);
+    });
+    
+    // Scroll direction detection
+    let lastScrollTop = 0;
+    window.addEventListener('scroll', () => {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        
+        if (scrollTop > lastScrollTop) {
+            // Scrolling down
+            document.body.classList.add('scroll-down');
+            document.body.classList.remove('scroll-up');
+        } else {
+            // Scrolling up
+            document.body.classList.add('scroll-up');
+            document.body.classList.remove('scroll-down');
+        }
+        
+        lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
     });
 }
 
@@ -498,7 +646,7 @@ function initAnimations() {
     });
     
     // Hover effects for cards
-    const cards = document.querySelectorAll('.about-card, .experience-card, .project-card, .contact-card');
+    const cards = document.querySelectorAll('.about-card, .experience-card, .project-card, .contact-card, .service-card, .fact-item');
     cards.forEach(card => {
         card.addEventListener('mouseenter', () => {
             card.style.transform = 'translateY(-10px) scale(1.02)';
@@ -518,6 +666,24 @@ function initAnimations() {
         
         card.addEventListener('mouseleave', () => {
             card.classList.remove('pulse');
+        });
+    });
+    
+    // Service card icon rotation
+    const serviceCards = document.querySelectorAll('.service-card');
+    serviceCards.forEach(card => {
+        card.addEventListener('mouseenter', () => {
+            const icon = card.querySelector('.service-icon');
+            if (icon) {
+                icon.style.transform = 'scale(1.1) rotate(10deg)';
+            }
+        });
+        
+        card.addEventListener('mouseleave', () => {
+            const icon = card.querySelector('.service-icon');
+            if (icon) {
+                icon.style.transform = 'scale(1) rotate(0deg)';
+            }
         });
     });
 }
@@ -597,6 +763,25 @@ style.textContent = `
     @keyframes float {
         0%, 100% { transform: translateY(0px); }
         50% { transform: translateY(-10px); }
+    }
+    
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .scroll-down .navbar {
+        transform: translateY(-100%);
+    }
+    
+    .scroll-up .navbar {
+        transform: translateY(0);
     }
 `;
 document.head.appendChild(style);
