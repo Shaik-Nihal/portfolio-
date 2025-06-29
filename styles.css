@@ -155,7 +155,7 @@ body {
     40% { transform: scale(1); }
 }
 
-/* Custom Cursor */
+/* Enhanced Custom Cursor */
 .cursor {
     position: fixed;
     width: 20px;
@@ -165,7 +165,7 @@ body {
     pointer-events: none;
     z-index: 9999;
     mix-blend-mode: difference;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     transform: scale(1);
 }
 
@@ -177,9 +177,35 @@ body {
     border-radius: 50%;
     pointer-events: none;
     z-index: 9998;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     opacity: 0.5;
     transform: scale(1);
+}
+
+/* Sidebar Cursor Effect */
+.cursor.sidebar-hover {
+    width: 80px;
+    height: 300px;
+    border-radius: 40px;
+    background: linear-gradient(
+        180deg,
+        rgba(138, 43, 226, 0.9) 0%,
+        rgba(138, 43, 226, 0.7) 50%,
+        rgba(138, 43, 226, 0.9) 100%
+    );
+    box-shadow: 
+        0 0 40px rgba(138, 43, 226, 0.6),
+        0 0 80px rgba(138, 43, 226, 0.4),
+        0 0 120px rgba(138, 43, 226, 0.2);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(138, 43, 226, 0.3);
+    mix-blend-mode: normal;
+    transform: scale(1);
+}
+
+.cursor-follower.sidebar-hover {
+    opacity: 0;
+    transform: scale(0);
 }
 
 .cursor.hover {
@@ -215,6 +241,15 @@ body {
     border-radius: 50px;
     border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: var(--shadow-2);
+    transition: all 0.3s ease;
+}
+
+.sidebar-container:hover {
+    background: rgba(26, 26, 46, 0.95);
+    border-color: rgba(138, 43, 226, 0.3);
+    box-shadow: 
+        0 20px 60px rgba(0, 0, 0, 0.4),
+        0 0 40px rgba(138, 43, 226, 0.2);
 }
 
 .social-item {
@@ -242,6 +277,7 @@ body {
     opacity: 0;
     transition: var(--transition);
     z-index: -1;
+    border-radius: 50%;
 }
 
 .social-item:hover::before {
@@ -265,30 +301,35 @@ body {
     z-index: 1;
 }
 
-/* Tooltip */
+/* Enhanced Tooltip */
 .social-item::after {
     content: attr(data-tooltip);
     position: absolute;
     left: 70px;
     top: 50%;
     transform: translateY(-50%);
-    background: var(--card-bg);
+    background: rgba(138, 43, 226, 0.95);
     color: var(--primary-text);
-    padding: 0.5rem 1rem;
-    border-radius: 8px;
+    padding: 0.8rem 1.2rem;
+    border-radius: 12px;
     font-size: 0.9rem;
+    font-weight: 600;
     white-space: nowrap;
     opacity: 0;
     visibility: hidden;
-    transition: var(--transition);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid rgba(138, 43, 226, 0.3);
     backdrop-filter: blur(10px);
+    box-shadow: 
+        0 10px 30px rgba(138, 43, 226, 0.3),
+        0 0 20px rgba(138, 43, 226, 0.2);
 }
 
 .social-item:hover::after {
     opacity: 1;
     visibility: visible;
     left: 60px;
+    transform: translateY(-50%) translateX(0);
 }
 
 @keyframes slideInLeft {
@@ -661,7 +702,6 @@ body {
     align-items: center;
     gap: 1rem;
     color: var(--secondary-text);
-    animation: float 3s ease-in-out infinite;
     opacity: 0;
     animation: fadeInUp 1s ease 2.5s forwards, float 3s ease-in-out 3.5s infinite;
 }
