@@ -54,7 +54,7 @@ function initScrollProgress() {
     });
 }
 
-// Enhanced Custom Cursor with Sidebar Effect
+// Enhanced Custom Cursor with Moncy.dev Style Sidebar Effect
 function initCursor() {
     const cursor = document.querySelector('.cursor');
     const follower = document.querySelector('.cursor-follower');
@@ -97,38 +97,38 @@ function initCursor() {
         });
     });
     
-    // Special sidebar cursor effect
-    const sidebarContainer = document.querySelector('.sidebar-container');
-    const socialItems = document.querySelectorAll('.social-item');
+    // Moncy.dev Style Sidebar Cursor Effect
+    const sidebarPill = document.querySelector('.sidebar-pill');
+    const socialIcons = document.querySelectorAll('.social-icon');
     
-    if (sidebarContainer) {
-        sidebarContainer.addEventListener('mouseenter', () => {
+    if (sidebarPill) {
+        sidebarPill.addEventListener('mouseenter', () => {
             cursor.classList.add('sidebar-hover');
             follower.classList.add('sidebar-hover');
             
-            // Position cursor to match sidebar
-            const rect = sidebarContainer.getBoundingClientRect();
+            // Position cursor to match sidebar pill
+            const rect = sidebarPill.getBoundingClientRect();
             cursor.style.left = (rect.left + rect.width / 2 - 40) + 'px';
             cursor.style.top = (rect.top + rect.height / 2 - 150) + 'px';
         });
         
-        sidebarContainer.addEventListener('mouseleave', () => {
+        sidebarPill.addEventListener('mouseleave', () => {
             cursor.classList.remove('sidebar-hover');
             follower.classList.remove('sidebar-hover');
         });
         
-        sidebarContainer.addEventListener('mousemove', (e) => {
+        sidebarPill.addEventListener('mousemove', (e) => {
             if (cursor.classList.contains('sidebar-hover')) {
-                const rect = sidebarContainer.getBoundingClientRect();
+                const rect = sidebarPill.getBoundingClientRect();
                 cursor.style.left = (rect.left + rect.width / 2 - 40) + 'px';
                 cursor.style.top = (rect.top + rect.height / 2 - 150) + 'px';
             }
         });
     }
     
-    // Individual social item effects
-    socialItems.forEach(item => {
-        item.addEventListener('mouseenter', () => {
+    // Individual social icon effects
+    socialIcons.forEach(icon => {
+        icon.addEventListener('mouseenter', () => {
             if (!cursor.classList.contains('sidebar-hover')) {
                 cursor.style.background = 'var(--accent-2)';
                 cursor.style.transform = 'scale(2.5)';
@@ -137,7 +137,7 @@ function initCursor() {
             }
         });
         
-        item.addEventListener('mouseleave', () => {
+        icon.addEventListener('mouseleave', () => {
             if (!cursor.classList.contains('sidebar-hover')) {
                 cursor.style.background = 'var(--accent-1)';
                 cursor.style.transform = 'scale(1)';
@@ -238,7 +238,7 @@ function animate() {
         }
         if (particle.y < 0 || particle.y > canvas.height) {
             particle.vy *= -0.8;
-            particle.y = Math.max(0, Math.min(canvas.height, particle.y));
+            particle.y = Math.max(0, Math.min(canvas.height,  particle.y));
         }
         
         // Apply friction
@@ -782,12 +782,12 @@ function initAnimations() {
     });
     
     // Social sidebar animations
-    const socialItems = document.querySelectorAll('.social-item');
-    socialItems.forEach((item, index) => {
-        item.style.animationDelay = `${2.5 + index * 0.1}s`;
-        item.style.opacity = '0';
-        item.style.transform = 'translateX(-50px)';
-        item.style.animation = 'slideInLeft 0.6s ease forwards';
+    const socialIcons = document.querySelectorAll('.social-icon');
+    socialIcons.forEach((icon, index) => {
+        icon.style.animationDelay = `${2.5 + index * 0.1}s`;
+        icon.style.opacity = '0';
+        icon.style.transform = 'translateX(-50px)';
+        icon.style.animation = 'slideInLeft 0.6s ease forwards';
     });
 }
 
