@@ -6,273 +6,951 @@
     <title>Shaik Nihal - Portfolio</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
 </head>
 <body>
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="loader">
+            <div class="loader-inner">
+                <div class="loader-line-wrap">
+                    <div class="loader-line"></div>
+                </div>
+                <div class="loader-line-wrap">
+                    <div class="loader-line"></div>
+                </div>
+                <div class="loader-line-wrap">
+                    <div class="loader-line"></div>
+                </div>
+                <div class="loader-line-wrap">
+                    <div class="loader-line"></div>
+                </div>
+                <div class="loader-line-wrap">
+                    <div class="loader-line"></div>
+                </div>
+            </div>
+        </div>
+        <div class="loading-text">
+            <span>S</span><span>H</span><span>A</span><span>I</span><span>K</span>
+            <span>N</span><span>I</span><span>H</span><span>A</span><span>L</span>
+        </div>
+    </div>
+
+    <!-- Cursor -->
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+
+    <!-- Navigation -->
     <nav class="navbar">
         <div class="logo">SN</div>
         <div class="nav-links">
             <a href="#home">Home</a>
             <a href="#about">About</a>
+            <a href="#skills">Skills</a>
             <a href="#education">Education</a>
             <a href="#experience">Experience</a>
             <a href="#projects">Projects</a>
             <a href="#achievements">Achievements</a>
+            <a href="#testimonials">Testimonials</a>
             <a href="#contact">Contact</a>
+        </div>
+        <div class="mobile-menu-toggle">
+            <span></span>
+            <span></span>
+            <span></span>
         </div>
     </nav>
 
+    <!-- Hero Section -->
     <section id="home" class="hero">
         <div id="globe-container"></div>
-        <div class="hero-content">
-            <h1>Shaik Nihal</h1>
-            <p class="typewriter">Computer Science Engineering Student | Developer | Tech Enthusiast</p>
+        <div class="hero-content" data-aos="fade-up" data-aos-duration="1000">
+            <div class="hero-text">
+                <h1 class="glitch" data-text="Shaik Nihal">Shaik Nihal</h1>
+                <p class="typewriter">Computer Science Engineering Student | Developer | Tech Enthusiast</p>
+                <div class="hero-stats">
+                    <div class="stat-item" data-aos="fade-up" data-aos-delay="200">
+                        <span class="stat-number" data-target="9.25">0</span>
+                        <span class="stat-label">CGPA</span>
+                    </div>
+                    <div class="stat-item" data-aos="fade-up" data-aos-delay="400">
+                        <span class="stat-number" data-target="15">0</span>
+                        <span class="stat-label">Projects</span>
+                    </div>
+                    <div class="stat-item" data-aos="fade-up" data-aos-delay="600">
+                        <span class="stat-number" data-target="3">0</span>
+                        <span class="stat-label">Internships</span>
+                    </div>
+                </div>
+                <div class="hero-buttons" data-aos="fade-up" data-aos-delay="800">
+                    <a href="#projects" class="btn-primary">View My Work</a>
+                    <a href="#contact" class="btn-secondary">Get In Touch</a>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <div class="scroll-arrow"></div>
+            <span>Scroll Down</span>
         </div>
     </section>
 
+    <!-- About Section -->
     <section id="about" class="about">
-        <h2>About Me</h2>
-        <div class="about-content">
-            <div class="about-text">
-                <p>Ambitious Computer Science Engineering student at The Apollo University with a GPA of 9.6. Passionate about creating innovative solutions through technology.</p>
-                <div class="languages">
+        <div class="container">
+            <h2 data-aos="fade-up">About Me</h2>
+            <div class="about-content">
+                <div class="about-text" data-aos="fade-right">
+                    <div class="about-card">
+                        <div class="card-icon">
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+                        <h3>Who I Am</h3>
+                        <p>Ambitious Computer Science Engineering student at The Apollo University with a GPA of 9.25. Passionate about creating innovative solutions through technology and constantly learning new skills to stay ahead in the ever-evolving tech landscape.</p>
+                        <div class="about-highlights">
+                            <div class="highlight-item">
+                                <i class="fas fa-code"></i>
+                                <span>Full-Stack Developer</span>
+                            </div>
+                            <div class="highlight-item">
+                                <i class="fas fa-brain"></i>
+                                <span>Problem Solver</span>
+                            </div>
+                            <div class="highlight-item">
+                                <i class="fas fa-rocket"></i>
+                                <span>Innovation Enthusiast</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="languages" data-aos="fade-left">
                     <h3>Languages Known</h3>
-                    <ul>
-                        <li>English</li>
-                        <li>Hindi</li>
-                        <li>Urdu</li>
-                        <li>Telugu</li>
-                        <li>Tamil</li>
-                        <li>French</li>
+                    <div class="language-grid">
+                        <div class="language-item">
+                            <div class="language-flag">🇺🇸</div>
+                            <span>English</span>
+                            <div class="proficiency-bar">
+                                <div class="proficiency-fill" data-level="95"></div>
+                            </div>
+                        </div>
+                        <div class="language-item">
+                            <div class="language-flag">🇮🇳</div>
+                            <span>Hindi</span>
+                            <div class="proficiency-bar">
+                                <div class="proficiency-fill" data-level="90"></div>
+                            </div>
+                        </div>
+                        <div class="language-item">
+                            <div class="language-flag">🇵🇰</div>
+                            <span>Urdu</span>
+                            <div class="proficiency-bar">
+                                <div class="proficiency-fill" data-level="85"></div>
+                            </div>
+                        </div>
+                        <div class="language-item">
+                            <div class="language-flag">🇮🇳</div>
+                            <span>Telugu</span>
+                            <div class="proficiency-bar">
+                                <div class="proficiency-fill" data-level="80"></div>
+                            </div>
+                        </div>
+                        <div class="language-item">
+                            <div class="language-flag">🇮🇳</div>
+                            <span>Tamil</span>
+                            <div class="proficiency-bar">
+                                <div class="proficiency-fill" data-level="75"></div>
+                            </div>
+                        </div>
+                        <div class="language-item">
+                            <div class="language-flag">🇫🇷</div>
+                            <span>French</span>
+                            <div class="proficiency-bar">
+                                <div class="proficiency-fill" data-level="70"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="skills">
+        <div class="container">
+            <h2 data-aos="fade-up">Technical Expertise</h2>
+            <div class="skills-container">
+                <div class="skill-category" data-aos="fade-up" data-aos-delay="100">
+                    <h3>Frontend Development</h3>
+                    <div class="skill-items">
+                        <div class="skill-item" data-skill="JavaScript" data-level="90">
+                            <div class="skill-icon">
+                                <i class="fab fa-js-square"></i>
+                            </div>
+                            <div class="skill-info">
+                                <span class="skill-name">JavaScript</span>
+                                <span class="skill-level">90%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress"></div>
+                            </div>
+                            <div class="skill-frameworks">React • Vue.js • Angular • Next.js</div>
+                        </div>
+                        <div class="skill-item" data-skill="HTML/CSS" data-level="95">
+                            <div class="skill-icon">
+                                <i class="fab fa-html5"></i>
+                            </div>
+                            <div class="skill-info">
+                                <span class="skill-name">HTML/CSS</span>
+                                <span class="skill-level">95%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress"></div>
+                            </div>
+                            <div class="skill-frameworks">SASS • Bootstrap • Tailwind • CSS3</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="skill-category" data-aos="fade-up" data-aos-delay="200">
+                    <h3>Backend Development</h3>
+                    <div class="skill-items">
+                        <div class="skill-item" data-skill="Python" data-level="85">
+                            <div class="skill-icon">
+                                <i class="fab fa-python"></i>
+                            </div>
+                            <div class="skill-info">
+                                <span class="skill-name">Python</span>
+                                <span class="skill-level">85%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress"></div>
+                            </div>
+                            <div class="skill-frameworks">Django • Flask • FastAPI • Pandas</div>
+                        </div>
+                        <div class="skill-item" data-skill="Java" data-level="80">
+                            <div class="skill-icon">
+                                <i class="fab fa-java"></i>
+                            </div>
+                            <div class="skill-info">
+                                <span class="skill-name">Java</span>
+                                <span class="skill-level">80%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress"></div>
+                            </div>
+                            <div class="skill-frameworks">Spring Boot • JavaFX • Android</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="skill-category" data-aos="fade-up" data-aos-delay="300">
+                    <h3>Database & Tools</h3>
+                    <div class="skill-items">
+                        <div class="skill-item" data-skill="Databases" data-level="75">
+                            <div class="skill-icon">
+                                <i class="fas fa-database"></i>
+                            </div>
+                            <div class="skill-info">
+                                <span class="skill-name">Databases</span>
+                                <span class="skill-level">75%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress"></div>
+                            </div>
+                            <div class="skill-frameworks">MySQL • MongoDB • PostgreSQL • Firebase</div>
+                        </div>
+                        <div class="skill-item" data-skill="DevOps" data-level="70">
+                            <div class="skill-icon">
+                                <i class="fas fa-tools"></i>
+                            </div>
+                            <div class="skill-info">
+                                <span class="skill-name">DevOps</span>
+                                <span class="skill-level">70%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress"></div>
+                            </div>
+                            <div class="skill-frameworks">Git • Docker • AWS • Azure</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Education Section -->
+    <section id="education" class="education">
+        <div class="container">
+            <h2 data-aos="fade-up">Education</h2>
+            <div class="timeline">
+                <div class="timeline-item" data-aos="fade-right">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-header">
+                            <h3>The Apollo University</h3>
+                            <span class="timeline-date">2023 - Present</span>
+                        </div>
+                        <p class="degree">B.Tech in Computer Science Engineering</p>
+                        <div class="grade-display">
+                            <div class="grade-circle">
+                                <span class="grade-number">9.25</span>
+                                <span class="grade-label">CGPA</span>
+                            </div>
+                        </div>
+                        <div class="achievements-list">
+                            <div class="achievement-item">
+                                <i class="fas fa-trophy"></i>
+                                <span>Active member of College Debate Club and Public Speaking Society</span>
+                            </div>
+                            <div class="achievement-item">
+                                <i class="fas fa-medal"></i>
+                                <span>Represented college in Inter-collegiate Sports Events</span>
+                            </div>
+                            <div class="achievement-item">
+                                <i class="fas fa-chalkboard-teacher"></i>
+                                <span>Organized and led technical workshops for juniors</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item" data-aos="fade-left">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-header">
+                            <h3>Intermediate Education</h3>
+                            <span class="timeline-date">2021 - 2023</span>
+                        </div>
+                        <p class="degree">Mathematics, Physics, Chemistry (MPC)</p>
+                        <div class="grade-display">
+                            <div class="grade-circle">
+                                <span class="grade-number">88.8%</span>
+                                <span class="grade-label">Score</span>
+                            </div>
+                        </div>
+                        <div class="achievements-list">
+                            <div class="achievement-item">
+                                <i class="fas fa-brain"></i>
+                                <span>Developed strong analytical and problem-solving skills</span>
+                            </div>
+                            <div class="achievement-item">
+                                <i class="fas fa-users"></i>
+                                <span>Demonstrated leadership in group projects</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item" data-aos="fade-right">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-header">
+                            <h3>Vidyashram High School</h3>
+                            <span class="timeline-date">2012 - 2021</span>
+                        </div>
+                        <p class="degree">Secondary School Certificate (SSC)</p>
+                        <div class="grade-display">
+                            <div class="grade-circle">
+                                <span class="grade-number">92%</span>
+                                <span class="grade-label">Score</span>
+                            </div>
+                        </div>
+                        <div class="achievements-list">
+                            <div class="achievement-item">
+                                <i class="fas fa-star"></i>
+                                <span>Demonstrated exceptional academic performance</span>
+                            </div>
+                            <div class="achievement-item">
+                                <i class="fas fa-handshake"></i>
+                                <span>Developed strong networking and communication skills</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="experience">
+        <div class="container">
+            <h2 data-aos="fade-up">Experience</h2>
+            <div class="experience-grid">
+                <div class="experience-card" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="card-header">
+                        <div class="company-logo">
+                            <i class="fas fa-building"></i>
+                        </div>
+                        <div class="company-info">
+                            <h3>Al Hayys</h3>
+                            <span class="company-type">Singapore-based Startup</span>
+                        </div>
+                        <span class="duration">3 Months</span>
+                    </div>
+                    <p class="position">Website Development Intern</p>
+                    <div class="experience-tags">
+                        <span>Frontend</span>
+                        <span>React</span>
+                        <span>JavaScript</span>
+                    </div>
+                    <ul class="responsibilities">
+                        <li>Developed responsive web interfaces using modern frameworks</li>
+                        <li>Collaborated with international team across different time zones</li>
+                        <li>Implemented modern web technologies and best practices</li>
+                        <li>Optimized website performance and user experience</li>
+                    </ul>
+                </div>
+
+                <div class="experience-card" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="card-header">
+                        <div class="company-logo">
+                            <i class="fas fa-laptop-code"></i>
+                        </div>
+                        <div class="company-info">
+                            <h3>Prodigy Infotech</h3>
+                            <span class="company-type">Tech Company</span>
+                        </div>
+                        <span class="duration">Internship</span>
+                    </div>
+                    <p class="position">Software Development Intern</p>
+                    <div class="experience-tags">
+                        <span>Python</span>
+                        <span>Backend</span>
+                        <span>APIs</span>
+                    </div>
+                    <ul class="responsibilities">
+                        <li>Worked on real-world software development projects</li>
+                        <li>Enhanced programming skills through hands-on experience</li>
+                        <li>Collaborated with senior developers on complex solutions</li>
+                        <li>Contributed to code reviews and testing processes</li>
+                    </ul>
+                </div>
+
+                <div class="experience-card" data-aos="zoom-in" data-aos-delay="300">
+                    <div class="card-header">
+                        <div class="company-logo">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <div class="company-info">
+                            <h3>Codsoft</h3>
+                            <span class="company-type">Software Solutions</span>
+                        </div>
+                        <span class="duration">Internship</span>
+                    </div>
+                    <p class="position">Technical Intern</p>
+                    <div class="experience-tags">
+                        <span>Full-Stack</span>
+                        <span>Web Dev</span>
+                        <span>UI/UX</span>
+                    </div>
+                    <ul class="responsibilities">
+                        <li>Developed coding solutions for various client requirements</li>
+                        <li>Participated in team projects and agile development</li>
+                        <li>Learned industry best practices and coding standards</li>
+                        <li>Contributed to documentation and project planning</li>
                     </ul>
                 </div>
             </div>
-            <div class="skills">
-                <h3>Technical Expertise</h3>
-                <div class="expertise-container">
-                    <div class="skill-grid">
-                        <div class="skill-item" data-frameworks="React • Vue.js • Angular • Next.js • jQuery">
-                            <i class="fab fa-js"></i>
-                            <span>JavaScript</span>
-                            <div class="framework-reveal"></div>
-                        </div>
-
-                        <div class="skill-item" data-frameworks="Django • Flask • FastAPI • Pandas • NumPy • TensorFlow">
-                            <i class="fab fa-python"></i>
-                            <span>Python</span>
-                            <div class="framework-reveal"></div>
-                        </div>
-
-                        <div class="skill-item" data-frameworks="Spring Boot • JavaFX • Android • Hibernate • Maven">
-                            <i class="fab fa-java"></i>
-                            <span>Java</span>
-                            <div class="framework-reveal"></div>
-                        </div>
-
-                        <div class="skill-item" data-frameworks="MySQL • MongoDB • PostgreSQL • Firebase • Redis">
-                            <i class="fas fa-database"></i>
-                            <span>Databases</span>
-                            <div class="framework-reveal"></div>
-                        </div>
-
-                        <div class="skill-item" data-frameworks="Git • Docker • AWS • Azure • Kubernetes">
-                            <i class="fas fa-tools"></i>
-                            <span>DevOps</span>
-                            <div class="framework-reveal"></div>
-                        </div>
-
-                        <div class="skill-item" data-frameworks="HTML5 • CSS3 • SASS • Bootstrap • Tailwind">
-                            <i class="fas fa-code"></i>
-                            <span>Web Technologies</span>
-                            <div class="framework-reveal"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     </section>
 
-    <section id="education" class="education">
-        <h2>Education</h2>
-        <div class="timeline">
-            <div class="timeline-item">
-                <div class="timeline-content">
-                    <h3>The Apollo University</h3>
-                    <p class="date">2023 - Present</p>
-                    <p>B.Tech in Computer Science Engineering</p>
-                    <p class="grade">Academic Score(CGPA): 9.25</p>
-                    <div class="achievements-list">
-                        <p>• Active member of College Debate Club and Public Speaking Society</p>
-                        <p>• Represented college in Inter-collegiate Sports Events</p>
-                        <p>• Organized and led technical workshops for juniors</p>
-                    </div>
-                </div>
-            </div>
-            <div class="timeline-item">
-                <div class="timeline-content">
-                    <h3>Intermediate</h3>
-                    <p class="date">2021 - 2023</p>
-                    <p>Mathematics, Physics, Chemistry (MPC)</p>
-                    <p class="grade">Academic Score: 88.8%</p>
-                    <div class="achievements-list">
-                        <p>• Developed strong analytical and problem-solving skills</p>
-                        <p>• Represented college in Inter-collegiate Sports Events</p>
-                        <p>• Demonstrated leadership in group projects</p>
-                    </div>
-                </div>
-            </div>
-            <div class="timeline-item">
-                <div class="timeline-content">
-                    <h3>Vidyashram High School</h3>
-                    <p class="date">2012 - 2021</p>
-                    <p class="grade">Academic Score(SSC): 92%</p>
-                    <div class="achievements-list">
-                        <p>• Demonstrated exceptional academic performance</p>
-                        <p>• Developed strong networking and communication skills</p>
-                        <p>• Active participant in extracurricular activities</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="experience" class="experience">
-        <h2>Experience</h2>
-        <div class="experience-grid">
-            <div class="experience-card">
-                <div class="card-header">
-                    <h3>Al Hayys</h3>
-                    <span class="duration">3 Months</span>
-                </div>
-                <p class="position">Website Development Intern</p>
-                <p class="location">Singapore-based Startup</p>
-                <ul class="responsibilities">
-                    <li>Developed responsive web interfaces</li>
-                    <li>Collaborated with international team</li>
-                    <li>Implemented modern web technologies</li>
-                </ul>
-            </div>
-            <div class="experience-card">
-                <div class="card-header">
-                    <h3>Prodigy Infotech</h3>
-                    <span class="duration">Internship</span>
-                </div>
-                <p class="position">Software Development Intern</p>
-                <ul class="responsibilities">
-                    <li>Worked on real-world projects</li>
-                    <li>Enhanced programming skills</li>
-                </ul>
-            </div>
-            <div class="experience-card">
-                <div class="card-header">
-                    <h3>Codsoft</h3>
-                    <span class="duration">Internship</span>
-                </div>
-                <p class="position">Technical Intern</p>
-                <ul class="responsibilities">
-                    <li>Developed coding solutions</li>
-                    <li>Participated in team projects</li>
-                </ul>
-            </div>
-        </div>
-    </section>
-
+    <!-- Projects Section -->
     <section id="projects" class="projects">
-        <h2>Projects</h2>
-        <div class="projects-grid">
-            <div class="project-card">
-                <div class="project-image">
-                    <i class="fas fa-qrcode"></i>
+        <div class="container">
+            <h2 data-aos="fade-up">Featured Projects</h2>
+            <div class="projects-filter" data-aos="fade-up" data-aos-delay="200">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="web">Web Apps</button>
+                <button class="filter-btn" data-filter="ai">AI/ML</button>
+                <button class="filter-btn" data-filter="game">Games</button>
+                <button class="filter-btn" data-filter="mobile">Mobile</button>
+            </div>
+            <div class="projects-grid">
+                <div class="project-card" data-category="web" data-aos="flip-left" data-aos-delay="100">
+                    <div class="project-image">
+                        <img src="https://images.pexels.com/photos/270348/pexels-photo-270348.jpeg?auto=compress&cs=tinysrgb&w=800" alt="ERP Portal">
+                        <div class="project-overlay">
+                            <div class="project-links">
+                                <a href="https://github.com/Shaik-Nihal/erp-portal" class="project-link" target="_blank">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                                <a href="#" class="project-link">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <h3>ERP Portal</h3>
+                        <p>Advanced attendance management system using unique barcode registration with real-time analytics and reporting features.</p>
+                        <div class="project-tech">
+                            <span>Python</span>
+                            <span>Django</span>
+                            <span>PostgreSQL</span>
+                            <span>React</span>
+                        </div>
+                        <div class="project-stats">
+                            <div class="stat">
+                                <i class="fas fa-star"></i>
+                                <span>4.8</span>
+                            </div>
+                            <div class="stat">
+                                <i class="fas fa-code-branch"></i>
+                                <span>12</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <h3>ERP Portal</h3>
-                <p>Future Project: Attendance management system using unique barcode registration</p>
-                <div class="project-tags">
-                    <span>Python</span>
-                    <span>Database</span>
-                    <span>Web</span>
+
+                <div class="project-card" data-category="ai" data-aos="flip-left" data-aos-delay="200">
+                    <div class="project-image">
+                        <img src="https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=800" alt="AI Voice Assistant">
+                        <div class="project-overlay">
+                            <div class="project-links">
+                                <a href="https://github.com/Shaik-Nihal/ai-voice-assistant" class="project-link" target="_blank">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                                <a href="#" class="project-link">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <h3>AI Voice Assistant</h3>
+                        <p>Intelligent personal assistant powered by natural language processing with voice recognition and smart automation capabilities.</p>
+                        <div class="project-tech">
+                            <span>Python</span>
+                            <span>TensorFlow</span>
+                            <span>NLP</span>
+                            <span>Speech API</span>
+                        </div>
+                        <div class="project-stats">
+                            <div class="stat">
+                                <i class="fas fa-star"></i>
+                                <span>4.9</span>
+                            </div>
+                            <div class="stat">
+                                <i class="fas fa-code-branch"></i>
+                                <span>8</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card" data-category="game" data-aos="flip-left" data-aos-delay="300">
+                    <div class="project-image">
+                        <img src="https://images.pexels.com/photos/442576/pexels-photo-442576.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Flappy Bird Clone">
+                        <div class="project-overlay">
+                            <div class="project-links">
+                                <a href="https://github.com/Shaik-Nihal/flappy-bird-clone" class="project-link" target="_blank">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                                <a href="#" class="project-link">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <h3>Flappy Bird Clone</h3>
+                        <p>Interactive game inspired by the classic Flappy Bird with enhanced graphics, sound effects, and leaderboard system.</p>
+                        <div class="project-tech">
+                            <span>JavaScript</span>
+                            <span>HTML5 Canvas</span>
+                            <span>CSS3</span>
+                            <span>Web Audio API</span>
+                        </div>
+                        <div class="project-stats">
+                            <div class="stat">
+                                <i class="fas fa-star"></i>
+                                <span>4.7</span>
+                            </div>
+                            <div class="stat">
+                                <i class="fas fa-code-branch"></i>
+                                <span>15</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card" data-category="web" data-aos="flip-left" data-aos-delay="400">
+                    <div class="project-image">
+                        <img src="https://images.pexels.com/photos/730547/pexels-photo-730547.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Currency Converter">
+                        <div class="project-overlay">
+                            <div class="project-links">
+                                <a href="https://github.com/Shaik-Nihal/currency-converter" class="project-link" target="_blank">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                                <a href="#" class="project-link">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <h3>Currency Converter</h3>
+                        <p>Real-time currency conversion application with historical data visualization and multiple currency support.</p>
+                        <div class="project-tech">
+                            <span>JavaScript</span>
+                            <span>REST API</span>
+                            <span>Chart.js</span>
+                            <span>Bootstrap</span>
+                        </div>
+                        <div class="project-stats">
+                            <div class="stat">
+                                <i class="fas fa-star"></i>
+                                <span>4.6</span>
+                            </div>
+                            <div class="stat">
+                                <i class="fas fa-code-branch"></i>
+                                <span>6</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card" data-category="web" data-aos="flip-left" data-aos-delay="500">
+                    <div class="project-image">
+                        <img src="https://images.pexels.com/photos/1181244/pexels-photo-1181244.jpeg?auto=compress&cs=tinysrgb&w=800" alt="E-Commerce Platform">
+                        <div class="project-overlay">
+                            <div class="project-links">
+                                <a href="https://github.com/Shaik-Nihal/ecommerce-platform" class="project-link" target="_blank">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                                <a href="#" class="project-link">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <h3>E-Commerce Platform</h3>
+                        <p>Full-stack e-commerce solution with payment integration, inventory management, and admin dashboard.</p>
+                        <div class="project-tech">
+                            <span>React</span>
+                            <span>Node.js</span>
+                            <span>MongoDB</span>
+                            <span>Stripe API</span>
+                        </div>
+                        <div class="project-stats">
+                            <div class="stat">
+                                <i class="fas fa-star"></i>
+                                <span>4.9</span>
+                            </div>
+                            <div class="stat">
+                                <i class="fas fa-code-branch"></i>
+                                <span>20</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card" data-category="mobile" data-aos="flip-left" data-aos-delay="600">
+                    <div class="project-image">
+                        <img src="https://images.pexels.com/photos/147413/twitter-facebook-together-exchange-of-information-147413.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Social Media App">
+                        <div class="project-overlay">
+                            <div class="project-links">
+                                <a href="https://github.com/Shaik-Nihal/social-media-app" class="project-link" target="_blank">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                                <a href="#" class="project-link">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <h3>Social Media App</h3>
+                        <p>Cross-platform social media application with real-time messaging, story features, and content sharing.</p>
+                        <div class="project-tech">
+                            <span>React Native</span>
+                            <span>Firebase</span>
+                            <span>Socket.io</span>
+                            <span>Redux</span>
+                        </div>
+                        <div class="project-stats">
+                            <div class="stat">
+                                <i class="fas fa-star"></i>
+                                <span>4.8</span>
+                            </div>
+                            <div class="stat">
+                                <i class="fas fa-code-branch"></i>
+                                <span>18</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="project-card">
-                <div class="project-image">
-                    <i class="fas fa-microphone-alt"></i>
-                </div>
-                <h3>AI Voice Assistant</h3>
-                <p>Personal assistant powered by artificial intelligence</p>
-                <div class="project-tags">
-                    <span>Python</span>
-                    <span>AI</span>
-                    <span>NLP</span>
-                </div>
-            </div>
-            <div class="project-card">
-                <div class="project-image">
-                    <i class="fas fa-gamepad"></i>
-                </div>
-                <h3>Flappy Bird Clone</h3>
-                <p>Interactive game inspired by the classic Flappy Bird</p>
-                <div class="project-tags">
-                    <span>JavaScript</span>
-                    <span>HTML5</span>
-                    <span>CSS3</span>
-                </div>
-                
-                
-            </div>
-            <div class="project-card">
-    <div class="project-image">
-        <i class="fas fa-exchange-alt"></i>
-    </div>
-    <h3>Currency Converter</h3>
-    <p>Real-time currency conversion application</p>
-    <div class="project-tags">
-        <span>JavaScript</span>
-        <span>API</span>
-        <span>Web</span>
-    </div>
-</div>
-            
         </div>
     </section>
 
+    <!-- Achievements Section -->
     <section id="achievements" class="achievements">
-        <h2>Achievements</h2>
-        <div class="achievements-grid">
-            <div class="achievement-card">
-                <i class="fas fa-trophy"></i>
-                <h3>Runner Up </h3>
-                <p>TARI'GYM 2024 Hackathon at Apollo Institute of Medical Sciences and Research</p>
-            </div>
-           
-        </div>
+        <div class="container">
+            <h2 data-aos="fade-up">Achievements & Recognition</h2>
+            <div class="achievements-grid">
+                <div class="achievement-card" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="achievement-icon">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <div class="achievement-content">
+                        <h3>Runner Up</h3>
+                        <p>TARI'GYM 2024 Hackathon</p>
+                        <span class="achievement-location">Apollo Institute of Medical Sciences and Research</span>
+                        <div class="achievement-details">
+                            <span class="achievement-date">2024</span>
+                            <span class="achievement-participants">200+ participants</span>
+                        </div>
+                    </div>
+                </div>
 
+                <div class="achievement-card" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="achievement-icon">
+                        <i class="fas fa-medal"></i>
+                    </div>
+                    <div class="achievement-content">
+                        <h3>Academic Excellence</h3>
+                        <p>Dean's List Recognition</p>
+                        <span class="achievement-location">The Apollo University</span>
+                        <div class="achievement-details">
+                            <span class="achievement-date">2023-2024</span>
+                            <span class="achievement-participants">Top 5%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="achievement-card" data-aos="zoom-in" data-aos-delay="300">
+                    <div class="achievement-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <div class="achievement-content">
+                        <h3>Coding Competition</h3>
+                        <p>First Place Winner</p>
+                        <span class="achievement-location">Inter-College Programming Contest</span>
+                        <div class="achievement-details">
+                            <span class="achievement-date">2024</span>
+                            <span class="achievement-participants">150+ participants</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="achievement-card" data-aos="zoom-in" data-aos-delay="400">
+                    <div class="achievement-icon">
+                        <i class="fas fa-certificate"></i>
+                    </div>
+                    <div class="achievement-content">
+                        <h3>Certification</h3>
+                        <p>AWS Cloud Practitioner</p>
+                        <span class="achievement-location">Amazon Web Services</span>
+                        <div class="achievement-details">
+                            <span class="achievement-date">2024</span>
+                            <span class="achievement-participants">Certified</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="testimonials">
+        <div class="container">
+            <h2 data-aos="fade-up">What People Say</h2>
+            <div class="testimonials-slider" data-aos="fade-up" data-aos-delay="200">
+                <div class="testimonial-card active">
+                    <div class="testimonial-content">
+                        <div class="quote-icon">
+                            <i class="fas fa-quote-left"></i>
+                        </div>
+                        <p>"Nihal is an exceptional developer with a keen eye for detail. His work on our web platform exceeded expectations and delivered outstanding results."</p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">
+                                <img src="https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=150" alt="Sarah Johnson">
+                            </div>
+                            <div class="author-info">
+                                <h4>Sarah Johnson</h4>
+                                <span>Project Manager, Al Hayys</span>
+                                <div class="rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <div class="quote-icon">
+                            <i class="fas fa-quote-left"></i>
+                        </div>
+                        <p>"Working with Nihal was a pleasure. His technical skills and problem-solving abilities are impressive for someone at his level."</p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">
+                                <img src="https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=150" alt="Michael Chen">
+                            </div>
+                            <div class="author-info">
+                                <h4>Michael Chen</h4>
+                                <span>Senior Developer, Prodigy Infotech</span>
+                                <div class="rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <div class="quote-icon">
+                            <i class="fas fa-quote-left"></i>
+                        </div>
+                        <p>"Nihal's dedication to learning and implementing new technologies is remarkable. He's a valuable addition to any development team."</p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">
+                                <img src="https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg?auto=compress&cs=tinysrgb&w=150" alt="Dr. Priya Sharma">
+                            </div>
+                            <div class="author-info">
+                                <h4>Dr. Priya Sharma</h4>
+                                <span>Professor, The Apollo University</span>
+                                <div class="rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-nav">
+                <button class="nav-btn prev-btn">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <div class="testimonial-dots">
+                    <span class="dot active"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                </div>
+                <button class="nav-btn next-btn">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
     <section id="contact" class="contact">
-        <h2>Contact Me</h2>
-        <div class="contact-container">
-            <form class="contact-form" action="https://formsubmit.co/ni78ha34l8@gmail.com" method="POST">
-                <input type="hidden" name="_next" value="https://shaik-nihal.github.io/portfolio/">
-                <input type="hidden" name="_subject" value="New Portfolio Message!">
-                <input type="hidden" name="_template" value="table">
-                <div class="form-group">
-                    <input type="text" name="name" placeholder="Name" required>
+        <div class="container">
+            <h2 data-aos="fade-up">Let's Work Together</h2>
+            <div class="contact-container">
+                <div class="contact-info" data-aos="fade-right">
+                    <div class="contact-card">
+                        <h3>Get In Touch</h3>
+                        <p>I'm always open to discussing new opportunities, creative projects, or potential collaborations.</p>
+                        <div class="contact-details">
+                            <div class="contact-item">
+                                <div class="contact-icon">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                                <div class="contact-text">
+                                    <span>Email</span>
+                                    <a href="mailto:ni78ha34l8@gmail.com">ni78ha34l8@gmail.com</a>
+                                </div>
+                            </div>
+                            <div class="contact-item">
+                                <div class="contact-icon">
+                                    <i class="fas fa-phone"></i>
+                                </div>
+                                <div class="contact-text">
+                                    <span>Phone</span>
+                                    <a href="tel:+919876543210">+91 98765 43210</a>
+                                </div>
+                            </div>
+                            <div class="contact-item">
+                                <div class="contact-icon">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </div>
+                                <div class="contact-text">
+                                    <span>Location</span>
+                                    <span>Hyderabad, India</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="social-links">
+                            <a href="https://github.com/Shaik-Nihal" class="social-link" target="_blank">
+                                <i class="fab fa-github"></i>
+                            </a>
+                            <a href="https://www.linkedin.com/in/shaik-nihal-469b0428a" class="social-link" target="_blank">
+                                <i class="fab fa-linkedin"></i>
+                            </a>
+                            <a href="mailto:ni78ha34l8@gmail.com" class="social-link">
+                                <i class="fas fa-envelope"></i>
+                            </a>
+                            <a href="https://twitter.com/shaiknihal" class="social-link" target="_blank">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <input type="email" name="email" placeholder="Email" required>
-                </div>
-                <div class="form-group">
-                    <textarea name="message" placeholder="Message" required></textarea>
-                </div>
-                <button type="submit" class="submit-btn">Send Message</button>
-            </form>
-            <div class="social-links">
-                <a href="https://github.com/Shaik-Nihal" class="social-link" target="_blank"><i class="fab fa-github"></i></a>
-                <a href="https://www.linkedin.com/in/shaik-nihal-469b0428a" class="social-link" target="_blank"><i class="fab fa-linkedin"></i></a>
-                <a href="mailto:ni78ha34l8@gmail.com" class="social-link"><i class="fas fa-envelope"></i></a>
+                <form class="contact-form" data-aos="fade-left" action="https://formsubmit.co/ni78ha34l8@gmail.com" method="POST">
+                    <input type="hidden" name="_next" value="https://shaik-nihal.github.io/portfolio/">
+                    <input type="hidden" name="_subject" value="New Portfolio Message!">
+                    <input type="hidden" name="_template" value="table">
+                    <div class="form-group">
+                        <input type="text" name="name" placeholder="Your Name" required>
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" name="email" placeholder="Your Email" required>
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="subject" placeholder="Subject" required>
+                        <i class="fas fa-tag"></i>
+                    </div>
+                    <div class="form-group">
+                        <textarea name="message" placeholder="Your Message" required></textarea>
+                        <i class="fas fa-comment"></i>
+                    </div>
+                    <button type="submit" class="submit-btn">
+                        <span>Send Message</span>
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </form>
             </div>
         </div>
     </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-text">
+                    <p>&copy; 2024 Shaik Nihal. All rights reserved.</p>
+                    <p>Designed & Developed with <i class="fas fa-heart"></i> by Shaik Nihal</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#home">Home</a>
+                    <a href="#about">About</a>
+                    <a href="#projects">Projects</a>
+                    <a href="#contact">Contact</a>
+                </div>
+            </div>
+        </div>
+    </footer>
 
     <script src="script.js"></script>
 </body>
-</html> 
+</html>

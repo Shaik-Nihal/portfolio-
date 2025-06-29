@@ -1,71 +1,138 @@
-// Particle System
+// Global Variables
 let canvas, ctx, particles, mouse;
-const particleCount = 100; // Increased from 80 to 100 particles
-const connectionDistance = 200; // Adjusted for better connections
-const particleSpeed = 0.08; // Reduced from 0.15 to 0.08 for slower movement
-const connectionStrength = 0.6; // Reduced opacity of connections
-const mouseRadius = 300; // Larger mouse influence
-const mouseConnectionRadius = 350; // Radius for special mouse connections
-const maxConnections = 5; // Maximum connections per particle
+const particleCount = 120;
+const connectionDistance = 150;
+const particleSpeed = 0.5;
+let animationId;
 
+// Loading Screen
+window.addEventListener('load', () => {
+    const loadingScreen = document.getElementById('loading-screen');
+    setTimeout(() => {
+        loadingScreen.classList.add('hidden');
+        setTimeout(() => {
+            loadingScreen.remove();
+            initializePortfolio();
+        }, 500);
+    }, 2000);
+});
+
+// Initialize Portfolio
+function initializePortfolio() {
+    initParticles();
+    initCursor();
+    initNavigation();
+    initAnimations();
+    initTypewriter();
+    initCounters();
+    initSkillBars();
+    initProjectFilter();
+    initTestimonials();
+    initContactForm();
+    initScrollEffects();
+    
+    // Initialize AOS
+    AOS.init({
+        duration: 1000,
+        once: true,
+        offset: 100
+    });
+}
+
+// Custom Cursor
+function initCursor() {
+    const cursor = document.querySelector('.cursor');
+    const follower = document.querySelector('.cursor-follower');
+    
+    let mouseX = 0, mouseY = 0;
+    let followerX = 0, followerY = 0;
+    
+    document.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        
+        cursor.style.left = mouseX + 'px';
+        cursor.style.top = mouseY + 'px';
+    });
+    
+    // Smooth follower animation
+    function animateFollower() {
+        followerX += (mouseX - followerX) * 0.1;
+        followerY += (mouseY - followerY) * 0.1;
+        
+        follower.style.left = followerX + 'px';
+        follower.style.top = followerY + 'px';
+        
+        requestAnimationFrame(animateFollower);
+    }
+    animateFollower();
+    
+    // Cursor interactions
+    const interactiveElements = document.querySelectorAll('a, button, .project-card, .skill-item');
+    
+    interactiveElements.forEach(el => {
+        el.addEventListener('mouseenter', () => {
+            cursor.style.transform = 'scale(1.5)';
+            follower.style.transform = 'scale(1.5)';
+        });
+        
+        el.addEventListener('mouseleave', () => {
+            cursor.style.transform = 'scale(1)';
+            follower.style.transform = 'scale(1)';
+        });
+    });
+}
+
+// Enhanced Particle System
 function initParticles() {
     canvas = document.createElement('canvas');
     ctx = canvas.getContext('2d');
     
-    // Replace globe container with canvas
     const container = document.getElementById('globe-container');
-    container.innerHTML = '';
     container.appendChild(canvas);
     
-    // Set canvas size
     function resize() {
         canvas.width = container.offsetWidth;
         canvas.height = container.offsetHeight;
-        // Recreate particles on resize to maintain density
         createParticles();
     }
+    
     resize();
     window.addEventListener('resize', resize);
-
-    // Mouse interaction
-    mouse = { x: null, y: null, radius: 200 };
     
-    // Add all event listeners here
+    mouse = { x: null, y: null };
+    
     canvas.addEventListener('mousemove', (e) => {
         const rect = canvas.getBoundingClientRect();
         mouse.x = e.clientX - rect.left;
         mouse.y = e.clientY - rect.top;
     });
-
+    
     canvas.addEventListener('mouseleave', () => {
         mouse.x = null;
         mouse.y = null;
     });
-
-    // Add click event listener here
+    
     canvas.addEventListener('click', (e) => {
         const rect = canvas.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
         
-        // Create new particles on click
-        for(let i = 0; i < 5; i++) {
+        // Create explosion effect
+        for(let i = 0; i < 10; i++) {
             particles.push({
                 x: x,
                 y: y,
-                radius: Math.random() * 2 + 1,
-                vx: Math.random() * 4 - 2,
-                vy: Math.random() * 4 - 2,
-                color: getRandomColor()
+                radius: Math.random() * 3 + 1,
+                vx: (Math.random() - 0.5) * 10,
+                vy: (Math.random() - 0.5) * 10,
+                color: getRandomColor(),
+                life: 1,
+                decay: 0.02
             });
         }
-        
-        // Remove excess particles
-        if(particles.length > particleCount + 20) {
-            particles.splice(0, 5);
-        }
     });
-
+    
     createParticles();
     animate();
 }
@@ -76,223 +143,177 @@ function createParticles() {
         particles.push({
             x: Math.random() * canvas.width,
             y: Math.random() * canvas.height,
-            radius: Math.random() * 1.2 + 0.8,
+            radius: Math.random() * 2 + 1,
             vx: (Math.random() - 0.5) * particleSpeed,
             vy: (Math.random() - 0.5) * particleSpeed,
             color: getRandomColor(),
-            glow: 0
+            life: 1,
+            originalRadius: Math.random() * 2 + 1
         });
     }
 }
 
 function getRandomColor() {
     const colors = [
-        'rgba(0, 255, 136, 0.6)',  // accent-1 with higher opacity
-        'rgba(107, 75, 255, 0.6)', // accent-2 with higher opacity
-        'rgba(0, 166, 255, 0.6)'   // accent-3 with higher opacity
+        'rgba(0, 255, 170, 0.8)',
+        'rgba(138, 43, 226, 0.8)',
+        'rgba(0, 212, 255, 0.8)'
     ];
     return colors[Math.floor(Math.random() * colors.length)];
 }
 
-function drawParticles() {
+function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    // Create a map to store nearest particles for each particle
-    const nearestParticles = new Map();
-
-    // Find nearest particles for connections
-    particles.forEach((particle, i) => {
-        const distances = [];
-        particles.forEach((otherParticle, j) => {
-            if (i !== j) {
-                const dx = particle.x - otherParticle.x;
-                const dy = particle.y - otherParticle.y;
-                const distance = Math.sqrt(dx * dx + dy * dy);
-                if (distance < connectionDistance) {
-                    distances.push({ particle: otherParticle, distance });
-                }
-            }
-        });
-        // Sort by distance and keep only the closest ones
-        distances.sort((a, b) => a.distance - b.distance);
-        nearestParticles.set(particle, distances.slice(0, maxConnections));
-    });
-
-    // Draw connections
-    particles.forEach(particle => {
-        const connections = nearestParticles.get(particle) || [];
+    
+    // Update and draw particles
+    particles.forEach((particle, index) => {
+        // Update position
+        particle.x += particle.vx;
+        particle.y += particle.vy;
         
-        // Draw connections to nearest particles
-        connections.forEach(({ particle: otherParticle, distance }) => {
-            let opacity = (1 - distance/connectionDistance) * connectionStrength;
-            
-            // Enhance connections near mouse
-            if (mouse.x && mouse.y) {
-                const midX = (particle.x + otherParticle.x) / 2;
-                const midY = (particle.y + otherParticle.y) / 2;
-                const mouseDistance = Math.sqrt(
-                    Math.pow(mouse.x - midX, 2) +
-                    Math.pow(mouse.y - midY, 2)
-                );
-                if (mouseDistance < mouseRadius) {
-                    opacity = Math.min(1, opacity * 3); // Stronger connections near mouse
-                }
-            }
-
-            // Create gradient for connection
-            const gradient = ctx.createLinearGradient(
-                particle.x, particle.y,
-                otherParticle.x, otherParticle.y
-            );
-            gradient.addColorStop(0, `rgba(0, 255, 136, ${opacity})`);
-            gradient.addColorStop(0.5, `rgba(0, 166, 255, ${opacity * 1.2})`);
-            gradient.addColorStop(1, `rgba(107, 75, 255, ${opacity})`);
-            
-            ctx.beginPath();
-            ctx.strokeStyle = gradient;
-            ctx.lineWidth = opacity * 1.5;
-            ctx.moveTo(particle.x, particle.y);
-            ctx.lineTo(otherParticle.x, otherParticle.y);
-            ctx.stroke();
-        });
-
-        // Draw connections to mouse
+        // Mouse interaction
         if (mouse.x && mouse.y) {
             const dx = mouse.x - particle.x;
             const dy = mouse.y - particle.y;
             const distance = Math.sqrt(dx * dx + dy * dy);
-
-            if (distance < mouseConnectionRadius) {
-                const opacity = Math.min(1, (1 - distance/mouseConnectionRadius) * 1.2);
-                const gradient = ctx.createLinearGradient(
-                    particle.x, particle.y,
-                    mouse.x, mouse.y
-                );
-                gradient.addColorStop(0, `rgba(0, 255, 136, ${opacity})`);
-                gradient.addColorStop(1, `rgba(107, 75, 255, ${opacity})`);
-                
-                ctx.beginPath();
-                ctx.strokeStyle = gradient;
-                ctx.lineWidth = opacity * 2;
-                ctx.moveTo(particle.x, particle.y);
-                ctx.lineTo(mouse.x, mouse.y);
-                ctx.stroke();
-            }
-        }
-
-        // Update particle position with attraction to connected particles
-        let dx = 0, dy = 0;
-        connections.forEach(({ particle: otherParticle }) => {
-            dx += (otherParticle.x - particle.x) * 0.001;
-            dy += (otherParticle.y - particle.y) * 0.001;
-        });
-        
-        particle.vx = (particle.vx + dx) * 0.99;
-        particle.vy = (particle.vy + dy) * 0.99;
-        
-        // Mouse influence
-        if (mouse.x && mouse.y) {
-            const mdx = mouse.x - particle.x;
-            const mdy = mouse.y - particle.y;
-            const mouseDistance = Math.sqrt(mdx * mdx + mdy * mdy);
             
-            if (mouseDistance < mouseRadius) {
-                const force = (mouseRadius - mouseDistance) / mouseRadius;
-                particle.vx += (mdx * force * 0.01);
-                particle.vy += (mdy * force * 0.01);
+            if (distance < 100) {
+                const force = (100 - distance) / 100;
+                particle.vx += dx * force * 0.01;
+                particle.vy += dy * force * 0.01;
+                particle.radius = particle.originalRadius * (1 + force);
+            } else {
+                particle.radius = particle.originalRadius;
             }
         }
-
-        // Update position
-        particle.x += particle.vx;
-        particle.y += particle.vy;
-
-        // Bounce off edges
-        if(particle.x < 0 || particle.x > canvas.width) {
-            particle.vx *= -0.5;
+        
+        // Boundary collision
+        if (particle.x < 0 || particle.x > canvas.width) {
+            particle.vx *= -0.8;
             particle.x = Math.max(0, Math.min(canvas.width, particle.x));
         }
-        if(particle.y < 0 || particle.y > canvas.height) {
-            particle.vy *= -0.5;
+        if (particle.y < 0 || particle.y > canvas.height) {
+            particle.vy *= -0.8;
             particle.y = Math.max(0, Math.min(canvas.height, particle.y));
         }
-
-        // Draw particle
-        const radius = particle.radius * (1 + (particle.glow || 0) * 2);
         
-        // Glow effect
+        // Apply friction
+        particle.vx *= 0.99;
+        particle.vy *= 0.99;
+        
+        // Handle temporary particles
+        if (particle.decay) {
+            particle.life -= particle.decay;
+            if (particle.life <= 0) {
+                particles.splice(index, 1);
+                return;
+            }
+        }
+        
+        // Draw connections
+        particles.forEach((otherParticle, otherIndex) => {
+            if (index !== otherIndex) {
+                const dx = particle.x - otherParticle.x;
+                const dy = particle.y - otherParticle.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                
+                if (distance < connectionDistance) {
+                    const opacity = (1 - distance / connectionDistance) * 0.5;
+                    const gradient = ctx.createLinearGradient(
+                        particle.x, particle.y,
+                        otherParticle.x, otherParticle.y
+                    );
+                    gradient.addColorStop(0, particle.color.replace('0.8', opacity));
+                    gradient.addColorStop(1, otherParticle.color.replace('0.8', opacity));
+                    
+                    ctx.beginPath();
+                    ctx.strokeStyle = gradient;
+                    ctx.lineWidth = opacity * 2;
+                    ctx.moveTo(particle.x, particle.y);
+                    ctx.lineTo(otherParticle.x, otherParticle.y);
+                    ctx.stroke();
+                }
+            }
+        });
+        
+        // Draw particle
         const glowGradient = ctx.createRadialGradient(
             particle.x, particle.y, 0,
-            particle.x, particle.y, radius * 4
+            particle.x, particle.y, particle.radius * 3
         );
-        glowGradient.addColorStop(0, particle.color.replace('0.6', '0.9'));
-        glowGradient.addColorStop(0.5, particle.color.replace('0.6', '0.4'));
+        glowGradient.addColorStop(0, particle.color);
         glowGradient.addColorStop(1, 'transparent');
         
         ctx.beginPath();
         ctx.fillStyle = glowGradient;
-        ctx.arc(particle.x, particle.y, radius * 4, 0, Math.PI * 2);
+        ctx.arc(particle.x, particle.y, particle.radius * 3, 0, Math.PI * 2);
         ctx.fill();
-
-        // Core
+        
         ctx.beginPath();
-        ctx.fillStyle = particle.color.replace('0.6', '1');
-        ctx.arc(particle.x, particle.y, radius, 0, Math.PI * 2);
+        ctx.fillStyle = particle.color;
+        ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
         ctx.fill();
     });
-}
-
-function animate() {
-    drawParticles();
-    requestAnimationFrame(animate);
-}
-
-// Initialize everything when the page loads
-window.addEventListener('load', () => {
-    initParticles();
-    const typewriterElement = document.querySelector('.typewriter');
-    typeWriter(typewriterElement, typewriterElement.textContent);
-});
-
-// Typewriter effect
-function typeWriter(element, text, speed = 100) {
-    let i = 0;
-    element.textContent = '';
-    function type() {
-        if (i < text.length) {
-            element.innerHTML += text.charAt(i);
-            i++;
-            setTimeout(type, speed);
-        }
-    }
-    type();
-}
-
-// Handle navbar active state
-function updateActiveNavLink() {
-    const navLinks = document.querySelectorAll('.nav-links a');
-    const hash = window.location.hash || '#home';
     
-    navLinks.forEach(link => {
-        if (link.getAttribute('href') === hash) {
-            link.classList.add('active');
+    animationId = requestAnimationFrame(animate);
+}
+
+// Navigation
+function initNavigation() {
+    const navbar = document.querySelector('.navbar');
+    const navLinks = document.querySelectorAll('.nav-links a');
+    const mobileToggle = document.querySelector('.mobile-menu-toggle');
+    const navLinksContainer = document.querySelector('.nav-links');
+    
+    // Scroll effect
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 100) {
+            navbar.classList.add('scrolled');
         } else {
-            link.classList.remove('active');
+            navbar.classList.remove('scrolled');
         }
+        
+        updateActiveNavLink();
+    });
+    
+    // Mobile menu toggle
+    mobileToggle.addEventListener('click', () => {
+        navLinksContainer.classList.toggle('active');
+        mobileToggle.classList.toggle('active');
+    });
+    
+    // Smooth scroll
+    navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const targetId = link.getAttribute('href');
+            const targetSection = document.querySelector(targetId);
+            
+            if (targetSection) {
+                targetSection.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+                
+                // Close mobile menu
+                navLinksContainer.classList.remove('active');
+                mobileToggle.classList.remove('active');
+            }
+        });
     });
 }
 
-// Update active state on scroll
-window.addEventListener('scroll', () => {
+function updateActiveNavLink() {
     const sections = document.querySelectorAll('section');
     const navLinks = document.querySelectorAll('.nav-links a');
     
     let current = '';
     
     sections.forEach(section => {
-        const sectionTop = section.offsetTop;
+        const sectionTop = section.offsetTop - 100;
         const sectionHeight = section.clientHeight;
-        if (pageYOffset >= sectionTop - 200) {
+        
+        if (window.pageYOffset >= sectionTop && window.pageYOffset < sectionTop + sectionHeight) {
             current = section.getAttribute('id');
         }
     });
@@ -303,157 +324,358 @@ window.addEventListener('scroll', () => {
             link.classList.add('active');
         }
     });
-});
-
-// Initial call to set active state
-updateActiveNavLink();
-window.addEventListener('hashchange', updateActiveNavLink); 
-
-// Smooth scroll function with animation
-function smoothScroll(target, duration) {
-    const targetSection = document.querySelector(target);
-    const targetPosition = targetSection.offsetTop;
-    const startPosition = window.pageYOffset;
-    const distance = targetPosition - startPosition;
-    let startTime = null;
-
-    function animation(currentTime) {
-        if (startTime === null) startTime = currentTime;
-        const timeElapsed = currentTime - startTime;
-        const run = ease(timeElapsed, startPosition, distance, duration);
-        window.scrollTo(0, run);
-        if (timeElapsed < duration) requestAnimationFrame(animation);
-    }
-
-    // Easing function for smooth animation
-    function ease(t, b, c, d) {
-        t /= d / 2;
-        if (t < 1) return c / 2 * t * t + b;
-        t--;
-        return -c / 2 * (t * (t - 2) - 1) + b;
-    }
-
-    requestAnimationFrame(animation);
 }
 
-// Add click event listeners to all navigation links
-document.querySelectorAll('.nav-links a').forEach(link => {
-    link.addEventListener('click', function(e) {
-        e.preventDefault();
-        const target = this.getAttribute('href');
-        
-        // Add fade out effect to current section
-        const currentSection = document.querySelector(target);
-        document.querySelectorAll('section').forEach(section => {
-            section.style.opacity = '0.5';
-            section.style.transform = 'scale(0.99)';
-            section.style.transition = 'all 0.3s ease';
-        });
-
-        // Smooth scroll with animation
-        smoothScroll(target, 1000);
-
-        // Add fade in effect to target section
-        setTimeout(() => {
-            document.querySelectorAll('section').forEach(section => {
-                section.style.opacity = '1';
-                section.style.transform = 'scale(1)';
-            });
-            currentSection.style.opacity = '1';
-            currentSection.style.transform = 'scale(1)';
-        }, 300);
-    });
-}); 
-
-// Enhanced smooth scroll with professional animations
-function smoothScrollWithEffects(target) {
-    const targetSection = document.querySelector(target);
-    const allSections = document.querySelectorAll('section');
+// Typewriter Effect
+function initTypewriter() {
+    const typewriterElement = document.querySelector('.typewriter');
+    const texts = [
+        'Computer Science Engineering Student',
+        'Full-Stack Developer',
+        'Problem Solver',
+        'Tech Enthusiast',
+        'Innovation Seeker'
+    ];
     
-    // Add transition class to all sections
-    allSections.forEach(section => {
-        if (section !== targetSection) {
-            section.style.transition = 'all 0.5s ease';
-            section.style.opacity = '0.3';
-            section.style.transform = 'scale(0.95)';
+    let textIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+    
+    function typeWriter() {
+        const currentText = texts[textIndex];
+        
+        if (isDeleting) {
+            typewriterElement.textContent = currentText.substring(0, charIndex - 1);
+            charIndex--;
+        } else {
+            typewriterElement.textContent = currentText.substring(0, charIndex + 1);
+            charIndex++;
+        }
+        
+        let typeSpeed = isDeleting ? 50 : 100;
+        
+        if (!isDeleting && charIndex === currentText.length) {
+            typeSpeed = 2000;
+            isDeleting = true;
+        } else if (isDeleting && charIndex === 0) {
+            isDeleting = false;
+            textIndex = (textIndex + 1) % texts.length;
+            typeSpeed = 500;
+        }
+        
+        setTimeout(typeWriter, typeSpeed);
+    }
+    
+    typeWriter();
+}
+
+// Counter Animation
+function initCounters() {
+    const counters = document.querySelectorAll('.stat-number');
+    
+    const animateCounter = (counter) => {
+        const target = parseFloat(counter.getAttribute('data-target'));
+        const increment = target / 100;
+        let current = 0;
+        
+        const updateCounter = () => {
+            if (current < target) {
+                current += increment;
+                counter.textContent = current.toFixed(target % 1 === 0 ? 0 : 2);
+                requestAnimationFrame(updateCounter);
+            } else {
+                counter.textContent = target.toFixed(target % 1 === 0 ? 0 : 2);
+            }
+        };
+        
+        updateCounter();
+    };
+    
+    // Intersection Observer for counters
+    const counterObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                animateCounter(entry.target);
+                counterObserver.unobserve(entry.target);
+            }
+        });
+    });
+    
+    counters.forEach(counter => {
+        counterObserver.observe(counter);
+    });
+}
+
+// Skill Bars Animation
+function initSkillBars() {
+    const skillBars = document.querySelectorAll('.skill-progress');
+    const proficiencyBars = document.querySelectorAll('.proficiency-fill');
+    
+    const animateSkillBar = (bar) => {
+        const skillItem = bar.closest('.skill-item');
+        const level = skillItem ? skillItem.getAttribute('data-level') : 0;
+        
+        setTimeout(() => {
+            bar.style.width = level + '%';
+        }, 500);
+    };
+    
+    const animateProficiencyBar = (bar) => {
+        const level = bar.getAttribute('data-level');
+        
+        setTimeout(() => {
+            bar.style.width = level + '%';
+        }, 500);
+    };
+    
+    // Intersection Observer for skill bars
+    const skillObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                if (entry.target.classList.contains('skill-progress')) {
+                    animateSkillBar(entry.target);
+                } else if (entry.target.classList.contains('proficiency-fill')) {
+                    animateProficiencyBar(entry.target);
+                }
+                skillObserver.unobserve(entry.target);
+            }
+        });
+    });
+    
+    [...skillBars, ...proficiencyBars].forEach(bar => {
+        skillObserver.observe(bar);
+    });
+}
+
+// Project Filter
+function initProjectFilter() {
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const projectCards = document.querySelectorAll('.project-card');
+    
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            // Update active button
+            filterBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            const filter = btn.getAttribute('data-filter');
+            
+            projectCards.forEach(card => {
+                const category = card.getAttribute('data-category');
+                
+                if (filter === 'all' || category === filter) {
+                    card.style.display = 'block';
+                    card.style.animation = 'fadeInUp 0.5s ease forwards';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+    });
+}
+
+// Testimonials Slider
+function initTestimonials() {
+    const testimonialCards = document.querySelectorAll('.testimonial-card');
+    const dots = document.querySelectorAll('.dot');
+    const prevBtn = document.querySelector('.prev-btn');
+    const nextBtn = document.querySelector('.next-btn');
+    
+    let currentTestimonial = 0;
+    
+    function showTestimonial(index) {
+        testimonialCards.forEach((card, i) => {
+            card.classList.toggle('active', i === index);
+        });
+        
+        dots.forEach((dot, i) => {
+            dot.classList.toggle('active', i === index);
+        });
+    }
+    
+    function nextTestimonial() {
+        currentTestimonial = (currentTestimonial + 1) % testimonialCards.length;
+        showTestimonial(currentTestimonial);
+    }
+    
+    function prevTestimonial() {
+        currentTestimonial = (currentTestimonial - 1 + testimonialCards.length) % testimonialCards.length;
+        showTestimonial(currentTestimonial);
+    }
+    
+    nextBtn.addEventListener('click', nextTestimonial);
+    prevBtn.addEventListener('click', prevTestimonial);
+    
+    dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+            currentTestimonial = index;
+            showTestimonial(currentTestimonial);
+        });
+    });
+    
+    // Auto-slide
+    setInterval(nextTestimonial, 5000);
+}
+
+// Contact Form
+function initContactForm() {
+    const form = document.querySelector('.contact-form');
+    const submitBtn = document.querySelector('.submit-btn');
+    
+    form.addEventListener('submit', (e) => {
+        // Add loading state
+        submitBtn.innerHTML = '<span>Sending...</span><i class="fas fa-spinner fa-spin"></i>';
+        submitBtn.disabled = true;
+        
+        // Reset after form submission (handled by FormSubmit)
+        setTimeout(() => {
+            submitBtn.innerHTML = '<span>Send Message</span><i class="fas fa-paper-plane"></i>';
+            submitBtn.disabled = false;
+        }, 2000);
+    });
+    
+    // Form validation
+    const inputs = form.querySelectorAll('input, textarea');
+    
+    inputs.forEach(input => {
+        input.addEventListener('blur', () => {
+            if (input.value.trim() === '') {
+                input.style.borderColor = '#ff4757';
+            } else {
+                input.style.borderColor = 'var(--accent-1)';
+            }
+        });
+        
+        input.addEventListener('focus', () => {
+            input.style.borderColor = 'var(--accent-1)';
+        });
+    });
+}
+
+// Scroll Effects
+function initScrollEffects() {
+    // Parallax effect for hero section
+    window.addEventListener('scroll', () => {
+        const scrolled = window.pageYOffset;
+        const hero = document.querySelector('.hero');
+        const heroContent = document.querySelector('.hero-content');
+        
+        if (hero && heroContent) {
+            heroContent.style.transform = `translateY(${scrolled * 0.5}px)`;
         }
     });
-
-    // Create and add transition overlay
-    const overlay = document.createElement('div');
-    overlay.style.position = 'fixed';
-    overlay.style.top = '0';
-    overlay.style.left = '0';
-    overlay.style.width = '100%';
-    overlay.style.height = '100%';
-    overlay.style.background = 'radial-gradient(circle at center, rgba(0,255,136,0.1) 0%, rgba(10,10,15,0) 70%)';
-    overlay.style.pointerEvents = 'none';
-    overlay.style.zIndex = '9999';
-    overlay.style.opacity = '0';
-    overlay.style.transition = 'opacity 0.5s ease';
-    document.body.appendChild(overlay);
-
-    // Animate overlay
-    requestAnimationFrame(() => {
-        overlay.style.opacity = '1';
+    
+    // Reveal animations on scroll
+    const revealElements = document.querySelectorAll('.about-card, .skill-category, .timeline-item, .experience-card, .project-card, .achievement-card');
+    
+    const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
     });
-
-    // Smooth scroll with enhanced timing
-    setTimeout(() => {
-        targetSection.style.transition = 'all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1)';
-        targetSection.style.opacity = '1';
-        targetSection.style.transform = 'scale(1) translateY(0)';
-        
-        window.scrollTo({
-            top: targetSection.offsetTop - 80,
-            behavior: 'smooth'
-        });
-
-        // Add glow effect to target section
-        targetSection.style.boxShadow = '0 0 50px rgba(0,255,136,0.1)';
-    }, 300);
-
-    // Cleanup animations
-    setTimeout(() => {
-        allSections.forEach(section => {
-            section.style.opacity = '1';
-            section.style.transform = 'scale(1)';
-            section.style.boxShadow = 'none';
-        });
-        overlay.style.opacity = '0';
-        setTimeout(() => overlay.remove(), 500);
-    }, 1000);
+    
+    revealElements.forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(50px)';
+        el.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+        revealObserver.observe(el);
+    });
 }
 
-// Update click event listeners for navigation links
-document.querySelectorAll('.nav-links a').forEach(link => {
-    link.addEventListener('click', function(e) {
-        e.preventDefault();
-        const target = this.getAttribute('href');
-        
-        // Update active state
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.classList.remove('active');
-        });
-        this.classList.add('active');
-
-        // Apply smooth scroll with effects
-        smoothScrollWithEffects(target);
+// Additional Animations
+function initAnimations() {
+    // Floating animation for hero stats
+    const statItems = document.querySelectorAll('.stat-item');
+    statItems.forEach((item, index) => {
+        item.style.animationDelay = `${index * 0.2}s`;
+        item.classList.add('floating');
     });
-}); 
-
-document.querySelectorAll('.skill-item').forEach(item => {
-    const frameworks = item.getAttribute('data-frameworks');
-    const revealDiv = item.querySelector('.framework-reveal');
     
-    item.addEventListener('mouseenter', () => {
-        revealDiv.textContent = frameworks;
-        revealDiv.style.opacity = '1';
-        revealDiv.style.transform = 'translateY(0)';
+    // Stagger animation for skill items
+    const skillItems = document.querySelectorAll('.skill-item');
+    skillItems.forEach((item, index) => {
+        item.style.animationDelay = `${index * 0.1}s`;
     });
+    
+    // Hover effects for cards
+    const cards = document.querySelectorAll('.about-card, .experience-card, .project-card, .achievement-card');
+    cards.forEach(card => {
+        card.addEventListener('mouseenter', () => {
+            card.style.transform = 'translateY(-10px) scale(1.02)';
+        });
+        
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = 'translateY(0) scale(1)';
+        });
+    });
+}
 
-    item.addEventListener('mouseleave', () => {
-        revealDiv.style.opacity = '0';
-        revealDiv.style.transform = 'translateY(100%)';
-    });
-}); 
+// Utility Functions
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
+
+// Performance optimization
+const debouncedResize = debounce(() => {
+    if (canvas) {
+        canvas.width = canvas.parentElement.offsetWidth;
+        canvas.height = canvas.parentElement.offsetHeight;
+        createParticles();
+    }
+}, 250);
+
+window.addEventListener('resize', debouncedResize);
+
+// Cleanup on page unload
+window.addEventListener('beforeunload', () => {
+    if (animationId) {
+        cancelAnimationFrame(animationId);
+    }
+});
+
+// Add CSS for floating animation
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes floating {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
+    }
+    
+    .floating {
+        animation: floating 3s ease-in-out infinite;
+    }
+    
+    .mobile-menu-toggle.active span:nth-child(1) {
+        transform: rotate(45deg) translate(5px, 5px);
+    }
+    
+    .mobile-menu-toggle.active span:nth-child(2) {
+        opacity: 0;
+    }
+    
+    .mobile-menu-toggle.active span:nth-child(3) {
+        transform: rotate(-45deg) translate(7px, -6px);
+    }
+`;
+document.head.appendChild(style);
+
+// Initialize everything when DOM is loaded
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializePortfolio);
+} else {
+    initializePortfolio();
+}
