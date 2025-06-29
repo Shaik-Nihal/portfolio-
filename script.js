@@ -54,7 +54,7 @@ function initScrollProgress() {
     });
 }
 
-// Enhanced Custom Cursor
+// Enhanced Custom Cursor with Sidebar Effect
 function initCursor() {
     const cursor = document.querySelector('.cursor');
     const follower = document.querySelector('.cursor-follower');
@@ -83,7 +83,7 @@ function initCursor() {
     animateFollower();
     
     // Enhanced cursor interactions
-    const interactiveElements = document.querySelectorAll('a, button, .project-card, .skill-item, .experience-card, .service-card, .testimonial-card, .social-item, .nav-link, .resume-btn');
+    const interactiveElements = document.querySelectorAll('a, button, .project-card, .skill-item, .experience-card, .service-card, .testimonial-card, .nav-link, .resume-btn');
     
     interactiveElements.forEach(el => {
         el.addEventListener('mouseenter', () => {
@@ -97,21 +97,53 @@ function initCursor() {
         });
     });
     
-    // Special effects for different elements
+    // Special sidebar cursor effect
+    const sidebarContainer = document.querySelector('.sidebar-container');
     const socialItems = document.querySelectorAll('.social-item');
+    
+    if (sidebarContainer) {
+        sidebarContainer.addEventListener('mouseenter', () => {
+            cursor.classList.add('sidebar-hover');
+            follower.classList.add('sidebar-hover');
+            
+            // Position cursor to match sidebar
+            const rect = sidebarContainer.getBoundingClientRect();
+            cursor.style.left = (rect.left + rect.width / 2 - 40) + 'px';
+            cursor.style.top = (rect.top + rect.height / 2 - 150) + 'px';
+        });
+        
+        sidebarContainer.addEventListener('mouseleave', () => {
+            cursor.classList.remove('sidebar-hover');
+            follower.classList.remove('sidebar-hover');
+        });
+        
+        sidebarContainer.addEventListener('mousemove', (e) => {
+            if (cursor.classList.contains('sidebar-hover')) {
+                const rect = sidebarContainer.getBoundingClientRect();
+                cursor.style.left = (rect.left + rect.width / 2 - 40) + 'px';
+                cursor.style.top = (rect.top + rect.height / 2 - 150) + 'px';
+            }
+        });
+    }
+    
+    // Individual social item effects
     socialItems.forEach(item => {
         item.addEventListener('mouseenter', () => {
-            cursor.style.background = 'var(--accent-2)';
-            cursor.style.transform = 'scale(2.5)';
-            follower.style.borderColor = 'var(--accent-2)';
-            follower.style.transform = 'scale(2.5)';
+            if (!cursor.classList.contains('sidebar-hover')) {
+                cursor.style.background = 'var(--accent-2)';
+                cursor.style.transform = 'scale(2.5)';
+                follower.style.borderColor = 'var(--accent-2)';
+                follower.style.transform = 'scale(2.5)';
+            }
         });
         
         item.addEventListener('mouseleave', () => {
-            cursor.style.background = 'var(--accent-1)';
-            cursor.style.transform = 'scale(1)';
-            follower.style.borderColor = 'var(--accent-1)';
-            follower.style.transform = 'scale(1)';
+            if (!cursor.classList.contains('sidebar-hover')) {
+                cursor.style.background = 'var(--accent-1)';
+                cursor.style.transform = 'scale(1)';
+                follower.style.borderColor = 'var(--accent-1)';
+                follower.style.transform = 'scale(1)';
+            }
         });
     });
 }
@@ -737,7 +769,7 @@ function initAnimations() {
         card.addEventListener('mouseenter', () => {
             const icon = card.querySelector('.service-icon');
             if (icon) {
-                icon.style.transform = 'scale(1.1) rotate(10deg)';
+                icon.style.transform = 'scale(1.1) rotate(5deg)';
             }
         });
         
