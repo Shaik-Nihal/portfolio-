@@ -1,8 +1,12 @@
 // Global Variables
 let canvas, ctx, particles, mouse;
-const particleCount = 80;
-const connectionDistance = 120;
-const particleSpeed = 0.3;
+const particleCount = 100; // Reduced for clearer connections
+const connectionDistance = 250; // Increased for more connections
+const particleSpeed = 0.2; // Reduced for smoother movement
+const connectionStrength = 0.9; // Increased connection opacity
+const mouseRadius = 300; // Larger mouse influence
+const mouseConnectionRadius = 350; // Radius for special mouse connections
+const maxConnections = 5; // Maximum connections per particle
 let animationId;
 
 // Loading Screen
@@ -17,8 +21,14 @@ window.addEventListener('load', () => {
     }, 2000);
 });
 
+// Track if portfolio has been initialized
+let portfolioInitialized = false;
+
 // Initialize Portfolio
 function initializePortfolio() {
+    if (portfolioInitialized) return;
+    portfolioInitialized = true;
+    
     initParticles();
     initCursor();
     initNavigation();
@@ -26,6 +36,7 @@ function initializePortfolio() {
     initTypewriter();
     initCounters();
     initSkillBars();
+    initSkillItemHoverEffects();
     initContactForm();
     initScrollEffects();
     initScrollProgress();
@@ -148,36 +159,65 @@ function initCursor() {
     });
 }
 
-// Enhanced Particle System
+// Enhanced Globe Particle System
 function initParticles() {
     canvas = document.createElement('canvas');
     ctx = canvas.getContext('2d');
     
-    const container = document.getElementById('particles-container');
+    // Replace globe container with canvas
+    const container = document.getElementById('globe-container');
+    container.innerHTML = '';
     container.appendChild(canvas);
     
+    // Set canvas size
     function resize() {
         canvas.width = container.offsetWidth;
         canvas.height = container.offsetHeight;
+        // Recreate particles on resize to maintain density
         createParticles();
     }
-    
     resize();
     window.addEventListener('resize', resize);
+
+    // Mouse interaction
+    mouse = { x: null, y: null, radius: 200 };
     
-    mouse = { x: null, y: null };
-    
+    // Add all event listeners here
     canvas.addEventListener('mousemove', (e) => {
         const rect = canvas.getBoundingClientRect();
         mouse.x = e.clientX - rect.left;
         mouse.y = e.clientY - rect.top;
     });
-    
+
     canvas.addEventListener('mouseleave', () => {
         mouse.x = null;
         mouse.y = null;
     });
-    
+
+    // Add click event listener here
+    canvas.addEventListener('click', (e) => {
+        const rect = canvas.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        // Create new particles on click
+        for(let i = 0; i < 5; i++) {
+            particles.push({
+                x: x,
+                y: y,
+                radius: Math.random() * 2 + 1,
+                vx: Math.random() * 4 - 2,
+                vy: Math.random() * 4 - 2,
+                color: getRandomColor()
+            });
+        }
+        
+        // Remove excess particles
+        if(particles.length > particleCount + 20) {
+            particles.splice(0, 5);
+        }
+    });
+
     createParticles();
     animate();
 }
@@ -188,99 +228,168 @@ function createParticles() {
         particles.push({
             x: Math.random() * canvas.width,
             y: Math.random() * canvas.height,
-            radius: Math.random() * 2 + 1,
+            radius: Math.random() * 1.5 + 1,
             vx: (Math.random() - 0.5) * particleSpeed,
             vy: (Math.random() - 0.5) * particleSpeed,
             color: getRandomColor(),
-            originalRadius: Math.random() * 2 + 1
+            glow: 0
         });
     }
 }
 
 function getRandomColor() {
     const colors = [
-        'rgba(0, 255, 170, 0.8)',
-        'rgba(138, 43, 226, 0.8)',
-        'rgba(0, 212, 255, 0.8)'
+        'rgba(0, 255, 136, 0.6)',  // accent-1 with higher opacity
+        'rgba(107, 75, 255, 0.6)', // accent-2 with higher opacity
+        'rgba(0, 166, 255, 0.6)'   // accent-3 with higher opacity
     ];
     return colors[Math.floor(Math.random() * colors.length)];
 }
 
 function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    
-    // Update and draw particles
+
+    // Create a map to store nearest particles for each particle
+    const nearestParticles = new Map();
+
+    // Find nearest particles for connections
+    particles.forEach((particle, i) => {
+        const distances = [];
+        particles.forEach((otherParticle, j) => {
+            if (i !== j) {
+                const dx = particle.x - otherParticle.x;
+                const dy = particle.y - otherParticle.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                if (distance < connectionDistance) {
+                    distances.push({ particle: otherParticle, distance });
+                }
+            }
+        });
+        // Sort by distance and keep only the closest ones
+        distances.sort((a, b) => a.distance - b.distance);
+        nearestParticles.set(particle, distances.slice(0, maxConnections));
+    });
+
+    // Draw connections and particles
     particles.forEach((particle, index) => {
-        // Update position
-        particle.x += particle.vx;
-        particle.y += particle.vy;
+        const connections = nearestParticles.get(particle) || [];
         
-        // Mouse interaction
+        // Draw connections to nearest particles
+        connections.forEach(({ particle: otherParticle, distance }) => {
+            let opacity = (1 - distance/connectionDistance) * connectionStrength;
+            
+            // Enhance connections near mouse
+            if (mouse.x && mouse.y) {
+                const midX = (particle.x + otherParticle.x) / 2;
+                const midY = (particle.y + otherParticle.y) / 2;
+                const mouseDistance = Math.sqrt(
+                    Math.pow(mouse.x - midX, 2) +
+                    Math.pow(mouse.y - midY, 2)
+                );
+                if (mouseDistance < mouseRadius) {
+                    opacity = Math.min(1, opacity * 3); // Stronger connections near mouse
+                }
+            }
+
+            // Create gradient for connection
+            const gradient = ctx.createLinearGradient(
+                particle.x, particle.y,
+                otherParticle.x, otherParticle.y
+            );
+            gradient.addColorStop(0, `rgba(0, 255, 136, ${opacity})`);
+            gradient.addColorStop(0.5, `rgba(0, 166, 255, ${opacity * 1.2})`);
+            gradient.addColorStop(1, `rgba(107, 75, 255, ${opacity})`);
+            
+            ctx.beginPath();
+            ctx.strokeStyle = gradient;
+            ctx.lineWidth = opacity * 3;
+            ctx.moveTo(particle.x, particle.y);
+            ctx.lineTo(otherParticle.x, otherParticle.y);
+            ctx.stroke();
+        });
+
+        // Draw connections to mouse
         if (mouse.x && mouse.y) {
             const dx = mouse.x - particle.x;
             const dy = mouse.y - particle.y;
             const distance = Math.sqrt(dx * dx + dy * dy);
-            
-            if (distance < 100) {
-                const force = (100 - distance) / 100;
-                particle.vx += dx * force * 0.01;
-                particle.vy += dy * force * 0.01;
-                particle.radius = particle.originalRadius * (1 + force);
-            } else {
-                particle.radius = particle.originalRadius;
-            }
-        }
-        
-        // Boundary collision
-        if (particle.x < 0 || particle.x > canvas.width) {
-            particle.vx *= -0.8;
-            particle.x = Math.max(0, Math.min(canvas.width, particle.x));
-        }
-        if (particle.y < 0 || particle.y > canvas.height) {
-            particle.vy *= -0.8;
-            particle.y = Math.max(0, Math.min(canvas.height,  particle.y));
-        }
-        
-        // Apply friction
-        particle.vx *= 0.99;
-        particle.vy *= 0.99;
-        
-        // Draw connections
-        particles.forEach((otherParticle, otherIndex) => {
-            if (index !== otherIndex) {
-                const dx = particle.x - otherParticle.x;
-                const dy = particle.y - otherParticle.y;
-                const distance = Math.sqrt(dx * dx + dy * dy);
+
+            if (distance < mouseConnectionRadius) {
+                const opacity = Math.min(1, (1 - distance/mouseConnectionRadius) * 1.2);
+                const gradient = ctx.createLinearGradient(
+                    particle.x, particle.y,
+                    mouse.x, mouse.y
+                );
+                gradient.addColorStop(0, `rgba(0, 255, 136, ${opacity})`);
+                gradient.addColorStop(1, `rgba(107, 75, 255, ${opacity})`);
                 
-                if (distance < connectionDistance) {
-                    const opacity = (1 - distance / connectionDistance) * 0.3;
-                    ctx.beginPath();
-                    ctx.strokeStyle = `rgba(0, 255, 170, ${opacity})`;
-                    ctx.lineWidth = opacity * 2;
-                    ctx.moveTo(particle.x, particle.y);
-                    ctx.lineTo(otherParticle.x, otherParticle.y);
-                    ctx.stroke();
-                }
+                ctx.beginPath();
+                ctx.strokeStyle = gradient;
+                ctx.lineWidth = opacity * 4;
+                ctx.moveTo(particle.x, particle.y);
+                ctx.lineTo(mouse.x, mouse.y);
+                ctx.stroke();
             }
+        }
+
+        // Update particle position with attraction to connected particles
+        let dx = 0, dy = 0;
+        connections.forEach(({ particle: otherParticle }) => {
+            dx += (otherParticle.x - particle.x) * 0.001;
+            dy += (otherParticle.y - particle.y) * 0.001;
         });
         
-        // Draw particle glow
+        particle.vx = (particle.vx + dx) * 0.99;
+        particle.vy = (particle.vy + dy) * 0.99;
+        
+        // Mouse influence
+        if (mouse.x && mouse.y) {
+            const mdx = mouse.x - particle.x;
+            const mdy = mouse.y - particle.y;
+            const mouseDistance = Math.sqrt(mdx * mdx + mdy * mdy);
+            
+            if (mouseDistance < mouseRadius) {
+                const force = (mouseRadius - mouseDistance) / mouseRadius;
+                particle.vx += (mdx * force * 0.02);
+                particle.vy += (mdy * force * 0.02);
+            }
+        }
+
+        // Update position
+        particle.x += particle.vx;
+        particle.y += particle.vy;
+
+        // Bounce off edges
+        if(particle.x < 0 || particle.x > canvas.width) {
+            particle.vx *= -0.5;
+            particle.x = Math.max(0, Math.min(canvas.width, particle.x));
+        }
+        if(particle.y < 0 || particle.y > canvas.height) {
+            particle.vy *= -0.5;
+            particle.y = Math.max(0, Math.min(canvas.height, particle.y));
+        }
+
+        // Draw particle
+        const radius = particle.radius * (1 + (particle.glow || 0) * 2);
+        
+        // Glow effect
         const glowGradient = ctx.createRadialGradient(
             particle.x, particle.y, 0,
-            particle.x, particle.y, particle.radius * 3
+            particle.x, particle.y, radius * 4
         );
-        glowGradient.addColorStop(0, particle.color);
+        glowGradient.addColorStop(0, particle.color.replace('0.6', '0.9'));
+        glowGradient.addColorStop(0.5, particle.color.replace('0.6', '0.4'));
         glowGradient.addColorStop(1, 'transparent');
         
         ctx.beginPath();
         ctx.fillStyle = glowGradient;
-        ctx.arc(particle.x, particle.y, particle.radius * 3, 0, Math.PI * 2);
+        ctx.arc(particle.x, particle.y, radius * 4, 0, Math.PI * 2);
         ctx.fill();
-        
-        // Draw particle
+
+        // Core
         ctx.beginPath();
-        ctx.fillStyle = particle.color;
-        ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
+        ctx.fillStyle = particle.color.replace('0.6', '1');
+        ctx.arc(particle.x, particle.y, radius, 0, Math.PI * 2);
         ctx.fill();
     });
     
@@ -358,81 +467,158 @@ function updateActiveNavLink() {
 // Resume Download
 function initResumeDownload() {
     const resumeBtn = document.getElementById('resume-btn');
+    const mobileResumeBtn = document.getElementById('mobile-resume-btn');
     
-    if (resumeBtn) {
-        resumeBtn.addEventListener('click', (e) => {
-            e.preventDefault();
+    // Function to handle the download process
+    const handleDownload = (e, button) => {
+        e.preventDefault();
+        
+        // Convert Google Drive view URL to direct download URL
+        const fileId = '1dXxiqcHPMUnRs61AnP18-dRcjCKQ4_52';
+        const downloadUrl = `https://drive.google.com/uc?export=download&id=${fileId}`;
+        
+        // Add loading animation
+        const originalContent = button.innerHTML;
+        button.innerHTML = '<i class="fas fa-spinner fa-spin"></i><span>Downloading...</span>';
+        button.style.pointerEvents = 'none';
+        
+        // For mobile compatibility, open in new tab if using touch device
+        const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+        
+        if (isTouchDevice) {
+            // Mobile approach - open in new tab
+            window.open(downloadUrl, '_blank');
             
-            // Create a temporary download link
-            const link = document.createElement('a');
-            link.href = '#'; // Replace with actual resume file path
-            link.download = 'Shaik_Nihal_Resume.pdf';
-            
-            // Add loading animation
-            const originalContent = resumeBtn.innerHTML;
-            resumeBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i><span>Downloading...</span>';
-            resumeBtn.style.pointerEvents = 'none';
-            
-            // Simulate download delay
+            // Show success message
             setTimeout(() => {
-                // In a real scenario, you would trigger the actual download here
-                // link.click();
+                button.innerHTML = '<i class="fas fa-check"></i><span>Downloaded!</span>';
                 
-                // Show success message
-                resumeBtn.innerHTML = '<i class="fas fa-check"></i><span>Downloaded!</span>';
-                
-                // Reset button after 2 seconds
+                // Reset button after delay
                 setTimeout(() => {
-                    resumeBtn.innerHTML = originalContent;
-                    resumeBtn.style.pointerEvents = 'auto';
+                    button.innerHTML = originalContent;
+                    button.style.pointerEvents = 'auto';
                 }, 2000);
             }, 1000);
-        });
+            } else {
+                // Desktop approach - create and click a download link
+                const link = document.createElement('a');
+                link.href = downloadUrl;
+                link.download = 'Shaik_Nihal_Resume.pdf';
+                link.target = '_blank';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                
+                // Show success message
+                setTimeout(() => {
+                    button.innerHTML = '<i class="fas fa-check"></i><span>Downloaded!</span>';
+                    
+                    // Reset button after delay
+                    setTimeout(() => {
+                        button.innerHTML = originalContent;
+                        button.style.pointerEvents = 'auto';
+                    }, 2000);
+                }, 1000);
+            }
+        };
+        
+        // Set up desktop resume button
+        if (resumeBtn) {
+            // Add both click and touch events for better compatibility
+            resumeBtn.addEventListener('click', (e) => handleDownload(e, resumeBtn));
+            resumeBtn.addEventListener('touchend', (e) => {
+                // Prevent duplicate events if touch triggers click too
+                e.preventDefault();
+                handleDownload(e, resumeBtn);
+            });
+        }
+        
+        // Set up mobile resume button
+        if (mobileResumeBtn) {
+            mobileResumeBtn.addEventListener('click', (e) => handleDownload(e, mobileResumeBtn));
+            mobileResumeBtn.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                handleDownload(e, mobileResumeBtn);
+            });
+        }
     }
+
+
+// Enhanced Typewriter effect with smooth fade-in and no glitches
+function typeWriter(element, text, speed = 100) {
+    if (!element || !text) return;
+    
+    // Smoothly show the element first
+    element.classList.add('active');
+    element.innerHTML = '';
+    
+    let i = 0;
+    const cursor = '<span class="typing-cursor">|</span>';
+    
+    function type() {
+        if (i < text.length) {
+            const currentChar = text.charAt(i);
+            
+            // Add slight variation in speed for natural feel
+            let currentSpeed = speed;
+            if (currentChar === ' ') {
+                currentSpeed = speed * 0.3; // Much faster for spaces
+            } else if (currentChar === '|') {
+                currentSpeed = speed * 2; // Slower for separators to create pause
+            } else if (currentChar === ',') {
+                currentSpeed = speed * 1.5; // Slight pause for commas
+            }
+            
+            // Use innerHTML to support cursor element
+            element.innerHTML = text.substring(0, i + 1) + cursor;
+            i++;
+            setTimeout(type, currentSpeed);
+        } else {
+            // Show text with cursor for a moment
+            setTimeout(() => {
+                element.innerHTML = text + cursor;
+                // Then fade out cursor smoothly
+                setTimeout(() => {
+                    const cursorElement = element.querySelector('.typing-cursor');
+                    if (cursorElement) {
+                        cursorElement.style.transition = 'opacity 0.8s ease';
+                        cursorElement.style.opacity = '0';
+                        setTimeout(() => {
+                            element.innerHTML = text;
+                        }, 800);
+                    }
+                }, 1200);
+            }, 300);
+        }
+    }
+    
+    // Start with just the cursor, then begin typing
+    element.innerHTML = cursor;
+    setTimeout(type, 800);
 }
 
-// Typewriter Effect
+// Initialize typewriter effect for hero section
+let typewriterInitialized = false;
+
 function initTypewriter() {
-    const typewriterElement = document.querySelector('.typewriter');
-    const texts = [
-        'Full-Stack Developer',
-        'Problem Solver',
-        'Tech Enthusiast',
-        'Innovation Seeker',
-        'Code Craftsman'
-    ];
+    if (typewriterInitialized) return;
+    typewriterInitialized = true;
     
-    let textIndex = 0;
-    let charIndex = 0;
-    let isDeleting = false;
-    
-    function typeWriter() {
-        const currentText = texts[textIndex];
-        
-        if (isDeleting) {
-            typewriterElement.textContent = currentText.substring(0, charIndex - 1);
-            charIndex--;
+    // Wait for hero content animation to complete first
+    setTimeout(() => {
+        const typewriterElement = document.querySelector('.typewriter');
+        if (typewriterElement) {
+            console.log('Starting smooth typewriter effect...');
+            
+            // Clean text - shorter and more impactful
+            const text = 'Computer Science Student | Developer | Tech Enthusiast';
+            
+            // Start the smooth typewriter effect
+            typeWriter(typewriterElement, text, 100);
         } else {
-            typewriterElement.textContent = currentText.substring(0, charIndex + 1);
-            charIndex++;
+            console.error('Typewriter element not found');
         }
-        
-        let typeSpeed = isDeleting ? 50 : 100;
-        
-        if (!isDeleting && charIndex === currentText.length) {
-            typeSpeed = 2000;
-            isDeleting = true;
-        } else if (isDeleting && charIndex === 0) {
-            isDeleting = false;
-            textIndex = (textIndex + 1) % texts.length;
-            typeSpeed = 500;
-        }
-        
-        setTimeout(typeWriter, typeSpeed);
-    }
-    
-    // Start typewriter after hero animations
-    setTimeout(typeWriter, 3000);
+    }, 1800); // Start after hero animation
 }
 
 // Counter Animation
@@ -510,6 +696,33 @@ function initSkillBars() {
     
     [...skillBars, ...proficiencyBars].forEach(bar => {
         skillObserver.observe(bar);
+    });
+}
+
+// Skill Item Hover Effects
+function initSkillItemHoverEffects() {
+    const skillItems = document.querySelectorAll('.skill-item');
+    
+    skillItems.forEach(item => {
+        item.addEventListener('mouseenter', () => {
+            const progressBar = item.querySelector('.skill-progress');
+            const level = item.getAttribute('data-skill');
+            
+            // Animate progress bar on hover
+            if (progressBar) {
+                progressBar.style.width = level + '%';
+            }
+        });
+        
+        item.addEventListener('mouseleave', () => {
+            const progressBar = item.querySelector('.skill-progress');
+            const level = item.getAttribute('data-skill');
+            
+            // Reset progress bar on mouse leave
+            if (progressBar) {
+                progressBar.style.width = '0%';
+            }
+        });
     });
 }
 
@@ -907,5 +1120,48 @@ if (document.readyState === 'loading') {
     initializePortfolio();
 }
 
+// Skill Item Hover Effects for About Section
+function initSkillItemHoverEffects() {
+    document.querySelectorAll('.skill-item').forEach(item => {
+        const frameworks = item.getAttribute('data-frameworks');
+        const revealDiv = item.querySelector('.framework-reveal');
+        
+        if (frameworks && revealDiv) {
+            item.addEventListener('mouseenter', () => {
+                revealDiv.textContent = frameworks;
+                revealDiv.style.opacity = '1';
+                revealDiv.style.transform = 'translateY(0)';
+            });
+
+            item.addEventListener('mouseleave', () => {
+                revealDiv.style.opacity = '0';
+                revealDiv.style.transform = 'translateY(100%)';
+            });
+        }
+    });
+}
+
 // Initialize mobile navigation
-initMobileNav();
+//initMobileNav();
+
+
+function initMobileNav() {
+    const navToggle = document.querySelector('.nav-toggle');
+    const navMenu = document.querySelector('.nav-menu');
+
+    if (navToggle && navMenu) {
+        navToggle.addEventListener('click', () => {
+            navToggle.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+
+        // Close menu when clicking on a link
+        const navLinks = document.querySelectorAll('.nav-link');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                navToggle.classList.remove('active');
+                navMenu.classList.remove('active');
+            });
+        });
+    }
+}

@@ -9,7 +9,23 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <meta name="description" content="Tech portfolio of Shaik Nihal, Full-Stack Developer specializing in web development, problem solving, and innovation.">
+<meta name="keywords" content="Shaik Nihal, Portfolio, Web Developer, Full-Stack, JavaScript, Python, React, Next.js">
+<meta name="author" content="Shaik Nihal">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://shaik-nihal.netlify.app/">
+<meta property="og:title" content="Shaik Nihal - Portfolio">
+<meta property="og:description" content="Explore the portfolio of Shaik Nihal, skilled Full-Stack Developer passionate about crafting engaging web experiences.">
+<meta property="og:url" content="https://shaik-nihal.netlify.app/">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://shaik-nihal.netlify.app/og-image.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Shaik Nihal - Portfolio">
+<meta name="twitter:description" content="Browse projects and skills of Shaik Nihal, Web Developer ready to build the future.">
+<meta name="twitter:image" content="https://shaik-nihal.netlify.app/og-image.jpg">
+
 </head>
+
 <body>
     <!-- Loading Screen -->
     <div id="loading-screen">
@@ -47,22 +63,22 @@
         <div class="scroll-progress-bar"></div>
     </div>
 
-    <!-- Floating Social Sidebar (Moncy.dev Style) -->
+    <!-- Floating Social Sidebar  -->
     <div class="floating-sidebar">
         <div class="sidebar-pill">
-            <a href="https://github.com/Shaik-Nihal" class="social-icon github" target="_blank" data-tooltip="GitHub">
+            <a href="https://github.com/Shaik-Nihal" class="social-icon github" target="_blank" rel="noopener" data-tooltip="GitHub" title="Visit my GitHub profile">
                 <i class="fab fa-github"></i>
             </a>
-            <a href="https://www.linkedin.com/in/shaik-nihal-469b0428a" class="social-icon linkedin" target="_blank" data-tooltip="LinkedIn">
+            <a href="https://www.linkedin.com/in/shaik-nihal-469b0428a" class="social-icon linkedin" target="_blank" rel="noopener" data-tooltip="LinkedIn" title="Connect with me on LinkedIn">
                 <i class="fab fa-linkedin"></i>
             </a>
-            <a href="https://twitter.com/shaiknihal" class="social-icon twitter" target="_blank" data-tooltip="Twitter">
+            <a href="https://twitter.com/shaiknihal" class="social-icon twitter" target="_blank" rel="noopener" data-tooltip="Twitter" title="Follow me on Twitter">
                 <i class="fab fa-twitter"></i>
             </a>
-            <a href="https://instagram.com/shaiknihal" class="social-icon instagram" target="_blank" data-tooltip="Instagram">
+            <a href="https://instagram.com/shaiknihal" class="social-icon instagram" target="_blank" rel="noopener" data-tooltip="Instagram" title="Follow me on Instagram">
                 <i class="fab fa-instagram"></i>
             </a>
-            <a href="mailto:ni78ha34l8@gmail.com" class="social-icon email" data-tooltip="Email">
+            <a href="mailto:ni78ha34l8@gmail.com" class="social-icon email" data-tooltip="Email" title="Send me an email">
                 <i class="fas fa-envelope"></i>
             </a>
         </div>
@@ -75,6 +91,11 @@
                 <span class="logo-text">SN</span>
                 <div class="logo-glow"></div>
             </div>
+            <!-- Mobile Resume Button -->
+            <a href="#" class="resume-btn mobile-resume-btn" id="mobile-resume-btn">
+                <i class="fas fa-download"></i>
+                <span>Resume</span>
+            </a>
             <div class="nav-menu">
                 <a href="#home" class="nav-link">Home</a>
                 <a href="#about" class="nav-link">About</a>
@@ -82,7 +103,7 @@
                 <a href="#skills" class="nav-link">Skills</a>
                 <a href="#experience" class="nav-link">Experience</a>
                 <a href="#projects" class="nav-link">Projects</a>
-                <a href="#testimonials" class="nav-link">Testimonials</a>
+                <!-- <a href="#testimonials" class="nav-link">Testimonials</a> -->
                 <a href="#contact" class="nav-link">Contact</a>
             </div>
             <div class="nav-actions">
@@ -95,71 +116,29 @@
                 <span></span>
                 <span></span>
                 <span></span>
+                
             </div>
         </div>
     </nav>
 
     <!-- Hero Section -->
     <section id="home" class="hero">
-        <div id="particles-container"></div>
-        <div class="hero-content" data-aos="fade-up" data-aos-duration="1000">
-            <div class="hero-text">
-                <div class="hero-greeting">Hello, I'm</div>
-                <h1 class="hero-name">
-                    <span class="name-part">Shaik</span>
-                    <span class="name-part">Nihal</span>
-                </h1>
-                <div class="hero-title">
-                    <span class="title-prefix">I'm a</span>
-                    <span class="typewriter-container">
-                        <span class="typewriter"></span>
-                        <span class="cursor-blink">|</span>
-                    </span>
-                </div>
-                <p class="hero-description">
-                    Passionate Computer Science student crafting innovative digital experiences 
-                    through code, creativity, and cutting-edge technology.
-                </p>
-                <div class="hero-stats">
-                    <div class="stat-item" data-aos="zoom-in" data-aos-delay="200">
-                        <div class="stat-number" data-target="9.25">0</div>
-                        <div class="stat-label">CGPA</div>
-                    </div>
-                    <div class="stat-item" data-aos="zoom-in" data-aos-delay="400">
-                        <div class="stat-number" data-target="15">0</div>
-                        <div class="stat-label">Projects</div>
-                    </div>
-                    <div class="stat-item" data-aos="zoom-in" data-aos-delay="600">
-                        <div class="stat-number" data-target="3">0</div>
-                        <div class="stat-label">Internships</div>
-                    </div>
-                </div>
-                <div class="hero-actions" data-aos="fade-up" data-aos-delay="800">
-                    <a href="#projects" class="btn-primary">
-                        <span>View My Work</span>
-                        <i class="fas fa-arrow-right"></i>
-                    </a>
-                    <a href="#contact" class="btn-secondary">
-                        <span>Let's Connect</span>
-                        <i class="fas fa-paper-plane"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="scroll-indicator">
-            <div class="scroll-mouse">
-                <div class="scroll-wheel"></div>
-            </div>
-            <span>Scroll to explore</span>
+        <div id="globe-container"></div>
+        <div class="hero-content">
+            <h1>Shaik Nihal</h1>
+            <p class="typewriter"></p>
         </div>
     </section>
+
+    <!-- Particles Background -->
+    <div id="particles-container" class="particles-background"></div>
 
     <!-- About Section -->
     <section id="about" class="about">
         <div class="container">
-            <h2 data-aos="fade-up">About Me</h2>
+            <h2>About Me</h2>
             <div class="about-content">
-                <div class="about-text" data-aos="fade-right">
+                <div class="about-text">
                     <div class="about-card">
                         <div class="card-header">
                             <div class="card-icon">
@@ -167,7 +146,15 @@
                             </div>
                             <h3>Who I Am</h3>
                         </div>
-                        <p>Ambitious Computer Science Engineering student at The Apollo University with a GPA of 9.25. Passionate about creating innovative solutions through technology and constantly learning new skills to stay ahead in the ever-evolving tech landscape.</p>
+                        <p>Hey there! I'm Nihal — a tech enthusiast who loves turning wild ideas into reality through code. 🚀</p>
+                        
+                        <!-- <p>I'm that person who gets genuinely excited about clean code, smooth user experiences, and the magic that happens when technology meets creativity. Whether it's building a full-stack web app from scratch, diving deep into AI tools, or crafting pixel-perfect interfaces, I'm all in.</p> -->
+                        
+                        <p>My journey has taken me through exciting internships at startups like Al Hayys (Singapore-based!) and tech companies like Prodigy Infotech, where I've worn many hats — from leading development teams to exploring cutting-edge tech like prompt engineering and cloud computing.</p>
+                        
+                        <p>What drives me? The thrill of solving complex problems and creating digital experiences that actually matter. Every line of code I write, every design decision I make, it's all about making someone's day a little bit easier or a lot more awesome.</p>
+                        
+                        <!-- <p>When I'm not deep in VS Code, you'll catch me geeking out over the latest AI breakthroughs, brainstorming growth strategies, or helping fellow developers navigate their coding challenges. Because great tech isn't built in isolation — it's built by people who care.</p> -->
                         <div class="about-highlights">
                             <div class="highlight-item">
                                 <div class="highlight-icon">
@@ -199,50 +186,58 @@
                         </div>
                     </div>
                 </div>
-                <div class="languages" data-aos="fade-left">
-                    <h3>Languages I Speak</h3>
-                    <div class="language-grid">
-                        <div class="language-item">
-                            <div class="language-flag">🇺🇸</div>
-                            <div class="language-info">
-                                <span class="language-name">English</span>
-                                <div class="proficiency-bar">
-                                    <div class="proficiency-fill" data-level="95"></div>
-                                </div>
-                                <span class="proficiency-text">Fluent</span>
-                            </div>
+                <div class="skills">
+                    <h3>Technical Arsenal</h3>
+                <div class="expertise-container">
+                    <div class="skill-grid">
+                        <div class="skill-item" data-frameworks="React • Vue.js • Angular • Next.js • jQuery">
+                            <i class="fab fa-js"></i>
+                            <span>JavaScript</span>
+                            <div class="framework-reveal"></div>
                         </div>
-                        <div class="language-item">
-                            <div class="language-flag">🇮🇳</div>
-                            <div class="language-info">
-                                <span class="language-name">Hindi</span>
-                                <div class="proficiency-bar">
-                                    <div class="proficiency-fill" data-level="90"></div>
-                                </div>
-                                <span class="proficiency-text">Native</span>
-                            </div>
+
+                        <div class="skill-item" data-frameworks="Django • Flask • FastAPI • Pandas • NumPy • TensorFlow">
+                            <i class="fab fa-python"></i>
+                            <span>Python</span>
+                            <div class="framework-reveal"></div>
                         </div>
-                        <div class="language-item">
-                            <div class="language-flag">🇵🇰</div>
-                            <div class="language-info">
-                                <span class="language-name">Urdu</span>
-                                <div class="proficiency-bar">
-                                    <div class="proficiency-fill" data-level="85"></div>
-                                </div>
-                                <span class="proficiency-text">Advanced</span>
-                            </div>
+
+                        <div class="skill-item" data-frameworks="Spring Boot • JavaFX • Android • Hibernate • Maven">
+                            <i class="fab fa-java"></i>
+                            <span>Java</span>
+                            <div class="framework-reveal"></div>
                         </div>
-                        <div class="language-item">
-                            <div class="language-flag">🇮🇳</div>
-                            <div class="language-info">
-                                <span class="language-name">Telugu</span>
-                                <div class="proficiency-bar">
-                                    <div class="proficiency-fill" data-level="80"></div>
-                                </div>
-                                <span class="proficiency-text">Advanced</span>
-                            </div>
+
+                        <div class="skill-item" data-frameworks="MySQL • MongoDB • PostgreSQL • Firebase • Redis">
+                            <i class="fas fa-database"></i>
+                            <span>Databases</span>
+                            <div class="framework-reveal"></div>
+                        </div>
+
+                        <div class="skill-item" data-frameworks="Git • Docker • AWS • Azure • Kubernetes">
+                            <i class="fas fa-tools"></i>
+                            <span>DevOps</span>
+                            <div class="framework-reveal"></div>
+                        </div>
+
+                        <div class="skill-item" data-frameworks="HTML5 • CSS3 • SASS • Bootstrap • Tailwind">
+                            <i class="fas fa-code"></i>
+                            <span>Web Technologies</span>
+                            <div class="framework-reveal"></div>
                         </div>
                     </div>
+                </div>
+                
+                <div class="languages">
+                    <h3>Languages Known</h3>
+                    <ul>
+                        <li>English</li>
+                        <li>Hindi</li>
+                        <li>Urdu</li>
+                        <li>Telugu</li>
+                        <li>Tamil</li>
+                        <li>French</li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -311,7 +306,7 @@
     </section>
 
     <!-- Skills Section -->
-    <section id="skills" class="skills">
+    <!-- <section id="skills" class="skills">
         <div class="container">
             <h2 data-aos="fade-up">Technical Arsenal</h2>
             <div class="skills-grid">
@@ -430,7 +425,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> -->
 
     <!-- Experience Section -->
     <section id="experience" class="experience">
@@ -551,7 +546,7 @@
                             </div>
                         </div>
                         <div class="project-links">
-                            <a href="https://github.com/Shaik-Nihal/erp-portal" class="project-link github" target="_blank">
+                            <a href="https://github.com/Shaik-Nihal/erp-portal" class="project-link github" target="_blank" rel="noopener" title="View ERP Portal source code on GitHub">
                                 <i class="fab fa-github"></i>
                                 <span>View Code</span>
                             </a>
@@ -569,10 +564,10 @@
                             <img src="https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=800" alt="AI Voice Assistant">
                             <div class="project-overlay">
                                 <div class="project-links">
-                                    <a href="https://github.com/Shaik-Nihal/ai-voice-assistant" class="project-link" target="_blank">
+                                    <a href="https://github.com/Shaik-Nihal/ai-voice-assistant" class="project-link" target="_blank" rel="noopener" title="View AI Voice Assistant source code">
                                         <i class="fab fa-github"></i>
                                     </a>
-                                    <a href="#" class="project-link">
+                                    <a href="#" class="project-link" title="Live demo coming soon">
                                         <i class="fas fa-external-link-alt"></i>
                                     </a>
                                 </div>
@@ -595,10 +590,10 @@
                             <img src="https://images.pexels.com/photos/442576/pexels-photo-442576.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Flappy Bird Clone">
                             <div class="project-overlay">
                                 <div class="project-links">
-                                    <a href="https://github.com/Shaik-Nihal/flappy-bird-clone" class="project-link" target="_blank">
+                                    <a href="https://github.com/Shaik-Nihal/flappy-bird-clone" class="project-link" target="_blank" rel="noopener" title="View Flappy Bird Clone on GitHub">
                                         <i class="fab fa-github"></i>
                                     </a>
-                                    <a href="#" class="project-link">
+                                    <a href="#" class="project-link" title="Live Demo (Coming Soon)">
                                         <i class="fas fa-external-link-alt"></i>
                                     </a>
                                 </div>
@@ -621,10 +616,10 @@
                             <img src="https://images.pexels.com/photos/730547/pexels-photo-730547.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Currency Converter">
                             <div class="project-overlay">
                                 <div class="project-links">
-                                    <a href="https://github.com/Shaik-Nihal/currency-converter" class="project-link" target="_blank">
+                                    <a href="https://github.com/Shaik-Nihal/currency-converter" class="project-link" target="_blank" rel="noopener" title="View Currency Converter on GitHub">
                                         <i class="fab fa-github"></i>
                                     </a>
-                                    <a href="#" class="project-link">
+                                    <a href="#" class="project-link" title="Live Demo (Coming Soon)">
                                         <i class="fas fa-external-link-alt"></i>
                                     </a>
                                 </div>
@@ -647,10 +642,10 @@
                             <img src="https://images.pexels.com/photos/1181244/pexels-photo-1181244.jpeg?auto=compress&cs=tinysrgb&w=800" alt="E-Commerce Platform">
                             <div class="project-overlay">
                                 <div class="project-links">
-                                    <a href="https://github.com/Shaik-Nihal/ecommerce-platform" class="project-link" target="_blank">
+                                    <a href="https://github.com/Shaik-Nihal/ecommerce-platform" class="project-link" target="_blank" rel="noopener" title="View E-commerce Platform on GitHub">
                                         <i class="fab fa-github"></i>
                                     </a>
-                                    <a href="#" class="project-link">
+                                    <a href="#" class="project-link" title="Live Demo (Coming Soon)">
                                         <i class="fas fa-external-link-alt"></i>
                                     </a>
                                 </div>
@@ -673,10 +668,10 @@
                             <img src="https://images.pexels.com/photos/3861958/pexels-photo-3861958.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Task Management App">
                             <div class="project-overlay">
                                 <div class="project-links">
-                                    <a href="https://github.com/Shaik-Nihal/task-manager" class="project-link" target="_blank">
+                                    <a href="https://github.com/Shaik-Nihal/task-manager" class="project-link" target="_blank" rel="noopener" title="View Task Manager on GitHub">
                                         <i class="fab fa-github"></i>
                                     </a>
-                                    <a href="#" class="project-link">
+                                    <a href="#" class="project-link" title="Live Demo (Coming Soon)">
                                         <i class="fas fa-external-link-alt"></i>
                                     </a>
                                 </div>
@@ -699,10 +694,10 @@
                             <img src="https://images.pexels.com/photos/1181467/pexels-photo-1181467.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Weather Dashboard">
                             <div class="project-overlay">
                                 <div class="project-links">
-                                    <a href="https://github.com/Shaik-Nihal/weather-dashboard" class="project-link" target="_blank">
+                                    <a href="https://github.com/Shaik-Nihal/weather-dashboard" class="project-link" target="_blank" rel="noopener" title="View Weather Dashboard on GitHub">
                                         <i class="fab fa-github"></i>
                                     </a>
-                                    <a href="#" class="project-link">
+                                    <a href="#" class="project-link" title="Live Demo (Coming Soon)">
                                         <i class="fas fa-external-link-alt"></i>
                                     </a>
                                 </div>
@@ -732,7 +727,7 @@
     </section>
 
     <!-- Testimonials Section -->
-    <section id="testimonials" class="testimonials">
+    <!-- <section id="testimonials" class="testimonials">
         <div class="container">
             <h2 data-aos="fade-up">What People Say</h2>
             <p class="section-subtitle" data-aos="fade-up" data-aos-delay="200">Feedback from clients and colleagues</p>
@@ -809,7 +804,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> -->
 
     <!-- Contact Section -->
     <section id="contact" class="contact">
@@ -860,15 +855,15 @@
                         <div class="social-connect">
                             <h4>Connect With Me</h4>
                             <div class="social-links">
-                                <a href="https://github.com/Shaik-Nihal" class="social-link" target="_blank">
+                                <a href="https://github.com/Shaik-Nihal" class="social-link" target="_blank" rel="noopener" title="Visit my GitHub profile">
                                     <i class="fab fa-github"></i>
                                     <span>GitHub</span>
                                 </a>
-                                <a href="https://www.linkedin.com/in/shaik-nihal-469b0428a" class="social-link" target="_blank">
+                                <a href="https://www.linkedin.com/in/shaik-nihal-469b0428a" class="social-link" target="_blank" rel="noopener" title="Connect with me on LinkedIn">
                                     <i class="fab fa-linkedin"></i>
                                     <span>LinkedIn</span>
                                 </a>
-                                <a href="https://twitter.com/shaiknihal" class="social-link" target="_blank">
+                                <a href="https://twitter.com/shaiknihal" class="social-link" target="_blank" rel="noopener" title="Follow me on Twitter">
                                     <i class="fab fa-twitter"></i>
                                     <span>Twitter</span>
                                 </a>
@@ -926,14 +921,14 @@
                     <p>Crafting digital experiences with passion and precision.</p>
                 </div>
                 <div class="footer-links">
-                    <div class="footer-section">
+                    <div class="footer-section navigation">
                         <h4>Navigation</h4>
                         <a href="#home">Home</a>
                         <a href="#about">About</a>
                         <a href="#projects">Projects</a>
                         <a href="#contact">Contact</a>
                     </div>
-                    <div class="footer-section">
+                    <div class="footer-section connect">
                         <h4>Connect</h4>
                         <a href="https://github.com/Shaik-Nihal" target="_blank">GitHub</a>
                         <a href="https://www.linkedin.com/in/shaik-nihal-469b0428a" target="_blank">LinkedIn</a>
@@ -941,12 +936,12 @@
                     </div>
                 </div>
             </div>
-            <div class="footer-bottom">
+                <div class="footer-bottom">
                 <p>&copy; 2024 Shaik Nihal. Designed & Developed with <i class="fas fa-heart"></i> by Shaik Nihal</p>
             </div>
         </div>
     </footer>
-
+    <script src="particles.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
