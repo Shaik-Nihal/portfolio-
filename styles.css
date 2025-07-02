@@ -571,6 +571,21 @@ body {
         rgba(18, 18, 31, 0.97)
     );
 }
+  .hero-subtitle {
+        display: block;
+        max-width: 600px;
+        margin: 0.5rem auto 0;
+        font-size: 1.2rem;
+        line-height: 1.4;
+        color: rgba(255, 255, 255, 0.85);
+        text-align: center;
+    }
+
+    @media (min-width: 768px) {
+        .hero-subtitle {
+            font-size: 1.5rem;
+        }
+    }
 
 #globe-container {
     position: absolute;

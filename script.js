@@ -76,19 +76,21 @@ function initCursor() {
     document.addEventListener('mousemove', (e) => {
         mouseX = e.clientX;
         mouseY = e.clientY;
-        
+
+        // Instantly update cursor for snappier response
         cursor.style.left = mouseX + 'px';
         cursor.style.top = mouseY + 'px';
+        // Also update follower immediately for low-latency
+        follower.style.left = mouseX + 'px';
+        follower.style.top = mouseY + 'px';
     });
-    
-    // Smooth follower animation
+
+    // Smooth follower animation (faster response)
     function animateFollower() {
-        followerX += (mouseX - followerX) * 0.1;
-        followerY += (mouseY - followerY) * 0.1;
-        
+        followerX += (mouseX - followerX) * 0.25; // was 0.1, now 0.25 for more responsive trailing
+        followerY += (mouseY - followerY) * 0.25;
         follower.style.left = followerX + 'px';
         follower.style.top = followerY + 'px';
-        
         requestAnimationFrame(animateFollower);
     }
     animateFollower();
