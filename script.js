@@ -71,30 +71,32 @@ function initCursor() {
     const follower = document.querySelector('.cursor-follower');
     
     let mouseX = 0, mouseY = 0;
+    let cursorX = 0, cursorY = 0;
     let followerX = 0, followerY = 0;
-    
+
+    // Highly responsive and fast cursor/follower animation
+    function animateCursor() {
+        // Cursor moves almost instantly to mouse
+        cursorX += (mouseX - cursorX) * 0.85;
+        cursorY += (mouseY - cursorY) * 0.85;
+        cursor.style.left = cursorX + 'px';
+        cursor.style.top = cursorY + 'px';
+
+        // Follower trails closely behind cursor, but still smooth
+        followerX += (mouseX - followerX) * 0.35;
+        followerY += (mouseY - followerY) * 0.35;
+        follower.style.left = followerX + 'px';
+        follower.style.top = followerY + 'px';
+
+        requestAnimationFrame(animateCursor);
+    }
+    animateCursor();
+
     document.addEventListener('mousemove', (e) => {
         mouseX = e.clientX;
         mouseY = e.clientY;
-
-        // Instantly update cursor for snappier response
-        cursor.style.left = mouseX + 'px';
-        cursor.style.top = mouseY + 'px';
-        // Also update follower immediately for low-latency
-        follower.style.left = mouseX + 'px';
-        follower.style.top = mouseY + 'px';
     });
 
-    // Smooth follower animation (faster response)
-    function animateFollower() {
-        followerX += (mouseX - followerX) * 0.25; // was 0.1, now 0.25 for more responsive trailing
-        followerY += (mouseY - followerY) * 0.25;
-        follower.style.left = followerX + 'px';
-        follower.style.top = followerY + 'px';
-        requestAnimationFrame(animateFollower);
-    }
-    animateFollower();
-    
     // Enhanced cursor interactions
     const interactiveElements = document.querySelectorAll('a, button, .project-card, .skill-item, .experience-card, .service-card, .testimonial-card, .nav-link, .resume-btn');
     
